@@ -6,7 +6,6 @@
     <title>Élèves - Association</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* SÉCURITÉ GLOBAAL POUR EMPECHER LE SQUASH DE LA BARRE LATÉRALE */
         body {
             margin: 0;
             padding: 0;
@@ -70,6 +69,7 @@
             box-sizing: border-box;
             background-color: #f8fafc;
             overflow-y: auto;
+            width: calc(100% - 260px);
         }
 
         .header-actions {
@@ -87,7 +87,6 @@
             color: #0f172a;
         }
 
-        /* BOUTON RETOUR CORRIGÉ VISIBLE */
         .btn-back {
             background-color: #ffffff;
             color: #334155;
@@ -162,7 +161,6 @@
 <body>
 
     <div class="dashboard-container">
-        <!-- BARRE LATÉRALE DE NAVIGATION CONSOLIDÉE -->
         <aside>
             <div class="brand">Corporate Portal</div>
             <p class="menu-label">Navigation</p>
@@ -175,20 +173,17 @@
             </nav>
         </aside>
 
-        <!-- CONTENU PRINCIPAL -->
         <main>
             <div class="header-actions">
                 <div>
                     <h1>Base de données Élèves</h1>
                     <p style="color: #64748b; margin: 5px 0 0 0;">Registre complet et fiches individuelles — Année Scolaire 2025/2026</p>
                 </div>
-                <!-- BOUTON RETOUR EN HAUT À DROITE DE L'ÉCRAN -->
                 <a href="index.html" class="btn-back">
                     ← Retour à l'accueil
                 </a>
             </div>
 
-            <!-- FORMULAIRE D'ENREGISTREMENT -->
             <div class="panel">
                 <div class="panel-header">
                     <h2>Enregistrement d'une nouvelle fiche élève</h2>
@@ -246,7 +241,6 @@
                 </form>
             </div>
 
-            <!-- SECTION : ÉLÈVES DE SECONDE -->
             <div class="panel level-section">
                 <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                     <div>
@@ -266,13 +260,11 @@
                             </tr>
                         </thead>
                         <tbody id="tbody-2nde">
-                            <!-- Rempli par le script -->
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- SECTION : ÉLÈVES DE TROISIÈME -->
             <div class="panel level-section">
                 <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                     <div>
@@ -292,8 +284,7 @@
                             </tr>
                         </thead>
                         <tbody id="tbody-3eme">
-                            <!-- Rempli par le script -->
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
             </div>
@@ -301,6 +292,7 @@
     </div>
 
     <script>
+        // BASE DE DONNÉES INTEGRALE EXTRAITE DE L'EXCEL RECOUPANT ABSOLUMENT TOUTES LES CELLULES
         const defaultStudents = [
             { lastname: 'MAZOYER', firstname: 'Maëlle', level: '2nde', class: 'Lycée Privé Sainte-Odile', email: 'mazoyermaelle@gmail.com', phone_jeune: '06 33 24 65 86', phone_resp: '06 07 02 61 16 / 06 81 35 54 06 / 06 69 59 06 25', email_resp1: 'stephanie.gay@kiabi.com', email_resp2: 'fmazoyer@elise.6m.fr', note: 'KIABI' },
             { lastname: 'MATHIEU', firstname: 'Léo', level: '2nde', class: 'Ensemble Scolaire Saint Adrien LaSalle - site Annappes', email: 'leo.mathieu0212@gmail.com', phone_jeune: '07 86 10 35 74', phone_resp: '06 76 23 47 35 / 06 85 80 17 42', email_resp1: 'j.mathieu@kiabi.com', email_resp2: 'melaniemagois@yahoo.fr', note: 'KIABI' },
@@ -321,27 +313,27 @@
             { lastname: 'SLOSSE', firstname: 'Charlie', level: '2nde', class: 'Lycée Louis Pasteur', email: 'charlie.slosse@gmail.com', phone_jeune: '06 16 89 85 36', phone_resp: '06 22 51 72 95 / 06 85 27 52 58', email_resp1: 'juliaswozniak@gmail.com', email_resp2: 'x.slosse@hotmail.fr', note: '1élève1stage' },
             { lastname: 'GILLES', firstname: 'Célia', level: '2nde', class: 'Lycée Paul Hazard', email: 'celia.gilles2010@gmail.com', phone_jeune: '06 65 36 11 29', phone_resp: '06 17 70 71 85 / 06 29 56 51 41', email_resp1: 'pierre.gilles38@gmail.com', email_resp2: 'prunemirabelle59@gmail.com', note: '1élève1stage' },
             { lastname: 'UNG', firstname: 'Vann', level: '2nde', class: 'Lycée Raymond Queneau', email: 'vann.ung.n1@gmail.com', phone_jeune: '07 71 27 74 12', phone_resp: '06 11 30 29 06 / 06 22 67 26 64', email_resp1: 'k.ung@gmail.com', email_resp2: 'oui.kim.vanny@gmail.com', note: '1élève1stage' },
-            { lastname: 'OUAAMAR', firstname: 'Chaïda', level: '2nde', class: 'Lycée Baggio', email: 'chdd.omr59@gmail.com', phone_jeune: '07 82 28 18 67', phone_resp: '', email_resp1: '', email_resp2: '', note: '' },
+            { lastname: 'OUAAMAR', firstname: 'Chaïda', level: '2nde', class: 'Lycée Baggio', email: 'chdd.omr59@gmail.com', phone_jeune: '07 82 28 18 67', phone_resp: 'Non renseigné', email_resp1: 'Non renseigné', email_resp2: '', note: '' },
             { lastname: 'VERMERSCH', firstname: 'Romane', level: '2nde', class: 'Lycée Notre Dame de la Paix', email: 'romanevermersch@gmail.com', phone_jeune: '06 73 88 78 49', phone_resp: '06 82 14 68 90 / 06 10 89 17 79', email_resp1: 'dehaypatricia@gmail.com', email_resp2: 'fravermersch@gmail.com', note: 'KIABI' },
-            { lastname: 'AUDOLY', firstname: 'Esteban', level: '2nde', class: 'École Jeannine Manuel', email: 'e.audoly28@ejm.org', phone_jeune: '06 88 01 78 84', phone_resp: '06 95 05 25 92 / 06 49 53 54 26', email_resp1: 'natha_vi@yahoo.fr', email_resp2: 'audolyt@hotmail.com', note: 'fils d\'amis de Patrick STASSI (DG)' },
+            { lastname: 'AUDOLY', firstname: 'Esteban', level: '2nde', class: 'École Jeannine Manuel', email: 'e.audoly28@ejm.org', phone_jeune: '06 88 01 78 84', phone_resp: '06 95 05 25 92 / 06 49 53 54 26', email_resp1: 'natha_vi@yahoo.fr', email_resp2: 'audolyt@hotmail.com', note: 'KIABI > fils d\'amis de Patrick STASSI (DG) > contacter le stagiaire en direct' },
             { lastname: 'BRONDERS', firstname: 'Djack', level: '2nde', class: 'Ensemble scolaire La Salle Lille', email: 'brondersdjack@gmail.com', phone_jeune: '06 03 21 40 64', phone_resp: '06 99 67 41 42', email_resp1: 'benjamin.bronders@kiabi.com', email_resp2: '', note: 'KIABI' },
-            { lastname: 'IDRI', firstname: 'Aksel', level: '2nde', class: 'Lycée Chanzy', email: 'yaya-idri@outlook.fr', phone_jeune: '07 80 52 98 58', phone_resp: '06 07 15 01 40 / 06 82 88 30 14', email_resp1: 'yacine.idri@kiabi.com', email_resp2: 'abser08@hotmail.fr', note: 'KIABI' },
-            { lastname: 'MAHIEUX', firstname: 'Baptiste', level: '2nde', class: 'Lycée Polyvalent Ozanam', email: 'baptistemahieux@icloud.com', phone_jeune: '07 83 59 56 51', phone_resp: '07 83 62 30 11 / 06 70 12 98 14', email_resp1: 'h.mahieux@kiabi.com', email_resp2: 'nutella59@free.fr', note: 'KIABI' },
+            { lastname: 'IDRI', firstname: 'Aksel', level: '2nde', class: 'Lycée Chanzy', email: 'yaya-idri@outlook.fr', phone_jeune: '07 80 52 98 58', phone_resp: '06 07 15 01 40 / 06 82 88 30 14', email_resp1: 'yacine.idri@kiabi.com', email_resp2: 'abser08@hotmail.fr / noksel06@outlook.fr /', note: 'KIABI' },
+            { lastname: 'MAHIEUX', firstname: 'Baptiste', level: '2nde', class: 'Lycée Polyvalent Ozanam (Général & Technologique)', email: 'baptistemahieux@icloud.com', phone_jeune: '07 83 59 56 51', phone_resp: '07 83 62 30 11 / 06 70 12 98 14', email_resp1: 'h.mahieux@kiabi.com', email_resp2: 'nutella59@free.fr', note: 'KIABI' },
             { lastname: 'MYLLE', firstname: 'Anaë', level: '2nde', class: 'LYCEE NOTRE DAME DES DUNES', email: 'mylle.anae123@gmail.com', phone_jeune: '07 55 62 24 03', phone_resp: '06 09 81 24 80 / 06 24 98 90 70', email_resp1: 'j.mylle@kiabi.com', email_resp2: 'mylle.sophie@gmail.com', note: 'KIABI' },
             { lastname: 'SACARD', firstname: 'Valentine', level: '2nde', class: 'Lycée Jean Perrin', email: 'famille@sacard.fr', phone_jeune: '07 50 53 88 90', phone_resp: '06 44 01 92 60 / 06 77 44 82 43', email_resp1: 'celine.faugouin@yahoo.fr', email_resp2: 'sebastien.sacard@gmail.com', note: 'KIABI' },
             { lastname: 'GRARDEL', firstname: 'Prudence', level: '2nde', class: 'Lycée Saint Paul', email: 'prudence.grardel@gmail.com', phone_jeune: '06 09 52 21 47', phone_resp: '06 37 12 60 03 / 06 95 18 36 59', email_resp1: 'germain_adelaide@hotmail.fr', email_resp2: '', note: 'KIABI' },
-            { lastname: 'KOUCKE', firstname: 'Maxime', level: '2nde', class: 'Lycée des Flandres', email: 'kouckemaxime@gmail.com', phone_jeune: '06 34 99 87 50', phone_resp: '06 22 95 51 88 / 06 07 82 82 31', email_resp1: 'hubaujulie@hotmail.fr', email_resp2: 'kouckejeanchristophe@gmail.com', note: 'francois.hubau@kiabi.com' },
+            { lastname: 'KOUCKE', firstname: 'Maxime', level: '2nde', class: 'Lycée des Flandres', email: 'kouckemaxime@gmail.com', phone_jeune: '06 34 99 87 50', phone_resp: '06 22 95 51 88 / 06 07 82 82 31', email_resp1: 'hubaujulie@hotmail.fr', email_resp2: 'kouckejeanchristophe@gmail.com', note: 'KIABI - 07 81 42 62 96 - francois.hubau@kiabi.com' },
             { lastname: 'DEBRIFFRE', firstname: 'Louise', level: '2nde', class: 'Groupe Institut de Genech', email: 'l.debriffe@icloud.com', phone_jeune: '07 88 87 28 21', phone_resp: '06 82 57 14 31 / 06 81 59 30 58', email_resp1: 'magdebriffe@yahoo.fr', email_resp2: 'debriffea@yahoo.fr', note: 'KIABI' },
             { lastname: 'TRUPKIEWICZ—BRAY', firstname: 'Auxanne', level: '2nde', class: 'Ensemble scolaire La Salle Lille', email: 'aux.tpkzb@icloud.com', phone_jeune: '07 87 81 85 83', phone_resp: '06 68 64 93 14 / 06 85 25 57 97', email_resp1: 'emilie_trup@hotmail.com', email_resp2: 'jonat_br@hotmail.fr', note: 'KIABI' },
             { lastname: 'CRÉPIN', firstname: 'Leina', level: '2nde', class: 'Ensemble scolaire La Salle Lille', email: 'leina59810@gmail.com', phone_jeune: '07 69 52 39 52', phone_resp: '06 76 70 23 44 /06 03 50 25 38', email_resp1: 'maxlillesud@hotmail.fr', email_resp2: '', note: 'KIABI' },
             { lastname: 'LORENZO-DOMINGO', firstname: 'Abygaëlle', level: '2nde', class: 'Lycée Louis Pasteur', email: 'lorabygaelle@gmail.com', phone_jeune: '06 28 71 18 22', phone_resp: '06 81 37 83 56 / 06 35 59 40 16', email_resp1: 'moulinaurore@yahoo.fr', email_resp2: 'lordamien81@yahoo.com', note: '1élève1stage' },
-            { lastname: 'AFHIM', firstname: 'Nahil', level: '2nde', class: 'Lycée Jean-Prouvé', email: 'nahil281210@gmail.com', phone_jeune: '06 51 93 34 79', phone_resp: '07 83 94 52 31', email_resp1: 'Salihaafhim@gmail.com', email_resp2: '', note: 'En attente' },
-            { lastname: 'DUSSART', firstname: 'Eloïse', level: '2nde', class: 'Notre-Dame-de-La-Providence Catholic HS', email: 'eloisedussart@icloud.com', phone_jeune: '06 95 68 73 04', phone_resp: '06 71 96 37 15 / 06 29 51 68 06', email_resp1: 'dqsoph@yahoo.fr', email_resp2: 'damiendussart@yahoo.fr', note: '1élève1stage' },
+            { lastname: 'AFHIM', firstname: 'Nahil', level: '2nde', class: 'Lycée Jean-Prouvé', email: 'nahil281210@gmail.com', phone_jeune: '06 51 93 34 79', phone_resp: '07 83 94 52 31', email_resp1: 'Salihaafhim@gmail.com', email_resp2: '', note: '' },
+            { lastname: 'DUSSART', firstname: 'Eloïse', level: '2nde', class: 'Notre-Dame-de-La-Providence Catholic High School', email: 'eloisedussart@icloud.com', phone_jeune: '06 95 68 73 04', phone_resp: '06 71 96 37 15 / 06 29 51 68 06', email_resp1: 'dqsoph@yahoo.fr', email_resp2: 'damiendussart@yahoo.fr', note: '1élève1stage' },
             { lastname: 'LOGEZ', firstname: 'Noémie', level: '2nde', class: 'Lycée Marguerite de Flandre', email: 'noemielogez@gmail.com', phone_jeune: '06 50 20 94 5', phone_resp: '06 28 08 63 27 / 06 09 40 14 33', email_resp1: 'lulogez@gmail.com', email_resp2: 'jonathan.logez@gmail.com', note: '1élève1stage' },
             { lastname: 'MONTAGNE', firstname: 'Raphaël', level: '2nde', class: 'Lycée Faidherbe', email: 'monraphael2010@gmail.com', phone_jeune: '06 13 82 35 07', phone_resp: '06 84 15 40 13 / 06 74 50 69 17', email_resp1: 'msamsoen@lillemetropole.fr', email_resp2: 'julagne@msn.com', note: '1élève1stage' },
-            { lastname: 'SERRET', firstname: 'Lili Rose', level: '2nde', class: 'Lycée Pierre de Coubertin', email: 'lilirose.serret@gmail.com', phone_jeune: '06 16 15 17 41', phone_resp: '07 67 51 15 98 / 06 24 70 27 71', email_resp1: 'aurelielatry@hotmail.fr', email_resp2: 'sebastien.serret@gmail.com', note: 'Calais - Connaissance collab' },
+            { lastname: 'SERRET', firstname: 'Lili Rose', level: '2nde', class: 'Lycée Pierre de Coubertin', email: 'lilirose.serret@gmail.com', phone_jeune: '06 16 15 17 41', phone_resp: '07 67 51 15 98 / 06 24 70 27 71', email_resp1: 'aurelielatry@hotmail.fr', email_resp2: 'sebastien.serret@gmail.com', note: 'connaissance de collab/ calais IPS 82' },
             { lastname: 'LAMBIN', firstname: 'Gabriel', level: '2nde', class: 'Lycée Raymond Queneau', email: 'gabriel.lambin@icloud.com', phone_jeune: '06 23 75 96 50', phone_resp: '06 13 05 51 48 / 06 26 16 00 59', email_resp1: 'karine_manisse@yahoo.fr', email_resp2: 'ch.lambin@yahoo.fr', note: '1élève1stage' },
-            { lastname: 'GELE PENO', firstname: 'Plamedi', level: '2nde', class: 'Lycée Baggio', email: 'plamedigelepenoo@gmail.com', phone_jeune: '07 84 69 88 32', phone_resp: '07 58 16 99 91 / 07 58 70 50 85', email_resp1: 'firogèle@yahoo.fr', email_resp2: 'ndalajosette@gmail.com', note: '1élève1stage' }
+            { lastname: 'GELE PENO', firstname: 'Plamedi', level: '2nde', class: 'Lycée Baggio', email: 'plamedigelepenoo@gmail.com', phone_jeune: '07 84 69 88 32', phone_resp: '07 58 16 99 91 /07 58 70 50 85', email_resp1: 'firogèle@yahoo.fr', email_resp2: 'ndalajosette@gmail.com', note: '1élève1stage' }
         ];
 
         function getStudentsDatabase() {
