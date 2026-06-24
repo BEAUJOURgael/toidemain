@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Satisfaction - Association</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <aside>
+        <div class="brand">Corporate Portal</div>
+        <p class="menu-label">Navigation</p>
+        <nav>
+            <a href="index.html">Tableau de bord</a>
+            <a href="communication.html">Communication</a>
+            <a href="entreprises.html">Relations Entreprises</a>
+            <a href="eleves.html">Base Élèves</a>
+            <a href="satisfaction.html" class="active">Audits & Satisfaction</a>
+        </nav>
+    </aside>
+
+    <main>
+        <div class="header-actions">
+            <h1>Audits de Satisfaction</h1>
+        </div>
+        <div class="panel">
+            <div class="panel-header">
+                <h2>Formulaire d'évaluation annuel</h2>
+                <p>Collecte des indicateurs de performance (KPI) auprès de nos membres.</p>
+            </div>
+            <form onsubmit="event.preventDefault(); alert('Données d\'audit enregistrées.');">
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label>Niveau de satisfaction global concernant l'accompagnement</label>
+                    <select>
+                        <option>Excellent</option>
+                        <option>Satisfaisant</option>
+                        <option>Insuffisant</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label>Observations qualitatives et suggestions d'amélioration</label>
+                    <textarea rows="4" placeholder="Détaillez ici vos remarques..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Soumettre le rapport</button>
+            </form>
+        </div>
+    </main>
+</body>
+</html>
