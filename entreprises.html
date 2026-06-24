@@ -5,8 +5,152 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entreprises - Association</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Styles spécifiques pour la grille d'entreprises du Nord */
+        .companies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .company-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .company-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .company-info h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 5px;
+        }
+
+        .company-info p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .region-badge {
+            display: inline-block;
+            background: #eff6ff;
+            color: var(--accent);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 10px;
+            width: fit-content;
+        }
+
+        /* Fenêtre Modale (Pop-up Contacts) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background: #fff;
+            width: 100%;
+            max-width: 550px;
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+            padding: 30px;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.2s ease;
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: translateY(0);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #f1f5f9;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            background: #e2e8f0;
+            color: var(--text-main);
+        }
+
+        .modal-body h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #0f172a;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .contact-row {
+            margin-bottom: 15px;
+            background: #f8fafc;
+            padding: 12px 15px;
+            border-radius: 6px;
+            border-left: 3px solid var(--accent);
+        }
+
+        .contact-row label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        .contact-row p {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-top: 2px;
+        }
+    </style>
 </head>
 <body>
+
     <aside>
         <div class="brand">Corporate Portal</div>
         <p class="menu-label">Navigation</p>
@@ -21,48 +165,127 @@
 
     <main>
         <div class="header-actions">
-            <h1>Relations Entreprises</h1>
-            <button class="btn btn-primary">Ajouter un partenaire</button>
+            <div>
+                <h1>Relations Entreprises</h1>
+                <p style="color: var(--text-muted); margin-top: 5px;">Filtre sectoriel : Antenne Axe Nord</p>
+            </div>
+            <button class="btn btn-primary" onclick="alert('Ajout d\'un nouveau compte partenaire')">Ajouter une entreprise</button>
         </div>
 
         <div class="panel">
             <div class="panel-header">
                 <h2>02.3 Documents stages</h2>
-                <p>Accès direct au répertoire Google Drive pour la gestion des conventions et des fiches de postes.</p>
+                <p>Répertoire partagé pour la gestion des conventions, des fiches de poste et rapports d'alternance.</p>
             </div>
-            <div style="width: 100%; height: 500px; border: 1px solid var(--border); border-radius: 6px; overflow: hidden;">
+            <div style="width: 100%; height: 350px; border: 1px solid var(--border); border-radius: 6px; overflow: hidden;">
                 <iframe src="https://drive.google.com/embeddedfolderview?id=TON_ID_DE_DOSSIER_DRIVE#list" style="width:100%; height:100%; border:0;"></iframe>
             </div>
         </div>
 
         <div class="panel">
             <div class="panel-header">
-                <h2>Comptes Partenaires Majeurs</h2>
+                <h2>Comptes et Portefeuilles Partenaires</h2>
+                <p>Cliquez sur une entité pour ouvrir la fiche de contact, les accords cadres et les adresses de correspondance.</p>
             </div>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Entreprise</th>
-                            <th>Contact Principal</th>
-                            <th>Type de Contrat</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Nexa Technologies</strong></td>
-                            <td>r.dubois@nexa.com</td>
-                            <td>Mécénat Global</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Altis Group</strong></td>
-                            <td>v.legrand@altis.fr</td>
-                            <td>Partenaire Recrutement</td>
-                        </tr>
-                    </tbody>
-                </table>
+
+            <div class="companies-grid">
+                <div class="company-card" onclick="openCompanyModal('Alstom')">
+                    <div class="company-info"><h3>Alstom</h3><p>Transport & Infrastructures</p></div>
+                    <div class="region-badge">Axe Nord</div>
+                </div>
+                <div class="company-card" onclick="openCompanyModal('Banque Pop')">
+                    <div class="company-info"><h3>Banque Populaire</h3><p>Banque & Assurance</p></div>
+                    <div class="region-badge">Axe Nord</div>
+                </div>
+                <div class="company-card" onclick="openCompanyModal('Boulanger')">
+                    <div class="company-info"><h3>Boulanger</h3><p>Distribution & Retail</p></div>
+                    <div class="region-badge">Axe Nord</div>
+                </div>
+                <div class="company-card" onclick="openCompanyModal('Bouygues batiment')">
+                    <div class="company-info"><h3>Bouygues Bâtiment</h3><p>BTP & Construction</p></div>
+                    <div class="region-badge">Axe Nord</div>
+                </div>
+                <div class="company-card" onclick="openCompanyModal('Caisse d\'Epargne')">
+                    <div class="company-info"><h3>Caisse d'Épargne</h3><p>Banque & Assurance</p></div>
+                    <div class="region-badge">Axe Nord</div>
+                </div>
+                <div class="company-card" onclick="openCompanyModal('CHAM')">
+                    <div class="company-info"><h3>CHAM</h3><p>Énergie & Services</p></div>
+                    <div class="region-badge">Axe Nord</div>
+                </div>
+                <div class="company-card" onclick="openCompanyModal('CHU')">
+                    <div class="company-info"><h3>CHU</h3><p>Santé & Secteur Public</p></div>
+                    <div class="region-badge">Axe Nord</div>
+                </div>
+                <div class="company-card" onclick="openCompanyModal('Credit Mutuel')">
+                    <div class="company-info"><h3>Crédit Mutuel</h3><p>Banque & Assurance</p></div>
+                    <div class="region-badge">Axe Nord</div>
+                </div>
+                <div class="company-card" onclick="openCompanyModal('Entreprises & Cités')">
+                    <div class="company-info"><h3>Entreprises & Cités</h3><p>Réseau d'Affaires & Conseil</p></div>
+                    <div class="region-badge">Axe Nord</div>
+                </div>
+                <div class="company-card" onclick="openCompanyModal('Indelec')">
+                    <div class="company-info"><h3>Indelec</h3><p>Industrie & Sécurité</p></div>
+                    <div class="region-badge">Axe Nord</div>
+                </div>
+                <div class="company-card" onclick="openCompanyModal('Kiabi')">
+                    <div class="company-info"><h3>Kiabi</h3><p>Prêt-à-porter & Retail</p></div>
+                    <div class="region-badge">Axe Nord</div>
+                </div>
+                <div class="company-card" onclick="openCompanyModal('Lesaffre')">
+                    <div class="company-info"><h3>Lesaffre</h3><p>Agroalimentaire & Bio-tech</p></div>
+                    <div class="region-badge">Axe Nord</div>
+                </div>
+                <div class="company-card" onclick="openCompanyModal('Lorban TP')">
+                    <div class="company-info"><h3>Lorban TP</h3><p>Travaux Publics & Génie Civil</p></div>
+                    <div class="region-badge">Axe Nord</div>
+                </div>
+                <div class="company-card" onclick="openCompanyModal('Oney Bank')">
+                    <div class="company-info"><h3>Oney Bank</h3><p>Services Financiers</p></div>
+                    <div class="region-badge">Axe Nord</div>
+                </div>
+                <div class="company-card" onclick="openCompanyModal('SNCF Axe Nord')">
+                    <div class="company-info"><h3>SNCF Axe Nord</h3><p>Transport Ferroviaire</p></div>
+                    <div class="region-badge">Axe Nord</div>
+                </div>
+                <div class="company-card" onclick="openCompanyModal('SNCF Réseaux')">
+                    <div class="company-info"><h3>SNCF Réseaux</h3><p>Gestion d'Infrastructure</p></div>
+                    <div class="region-badge">Axe Nord</div>
+                </div>
+                <div class="company-card" onclick="openCompanyModal('Texdecor')">
+                    <div class="company-info"><h3>Texdecor</h3><p>Design & Textile</p></div>
+                    <div class="region-badge">Axe Nord</div>
+                </div>
             </div>
         </div>
     </main>
-</body>
-</html>
+
+    <div class="modal-overlay" id="contactModal" onclick="closeCompanyModal()">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <button class="close-modal" onclick="closeCompanyModal()">×</button>
+            <div class="modal-body">
+                <h2 id="modal-company-name">Nom Entreprise</h2>
+                
+                <div class="contact-row">
+                    <label>Responsable Relations Écoles / RH</label>
+                    <p id="modal-contact-name">En attente...</p>
+                </div>
+                
+                <div class="contact-row">
+                    <label>Adresse e-mail Directe</label>
+                    <p id="modal-contact-email">contact@entreprise.com</p>
+                </div>
+
+                <div class="contact-row">
+                    <label>Téléphone Ligne Directe</label>
+                    <p id="modal-contact-phone">+33 3 20 00 00 00</p>
+                </div>
+
+                <div class="contact-row">
+                    <label>Localisation (Région Nord)</label>
+                    <p id="modal-contact-loc">Lille Métropole / Grand Nord</p>
+                </div>
+
+                <div style="margin-top: 25px; display: flex; gap: 10px;">
+                    <a href="#" id="modal-drive-btn" target="_blank" class="btn btn-primary
