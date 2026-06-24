@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Élèves - Association</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <aside>
+        <div class="brand">Corporate Portal</div>
+        <p class="menu-label">Navigation</p>
+        <nav>
+            <a href="index.html">Tableau de bord</a>
+            <a href="communication.html">Communication</a>
+            <a href="entreprises.html">Relations Entreprises</a>
+            <a href="eleves.html" class="active">Base Élèves</a>
+            <a href="satisfaction.html">Audits & Satisfaction</a>
+        </nav>
+    </aside>
+
+    <main>
+        <div class="header-actions">
+            <h1>Base de données Élèves</h1>
+        </div>
+        
+        <div style="display: flex; gap: 10px; margin-bottom: 25px; overflow-x: auto; padding-bottom: 10px;">
+            <button class="btn btn-secondary" style="background: var(--accent); color: white;" onclick="filterYear('year7', this)">Année 7 - 2026/27</button>
+            <button class="btn btn-secondary" onclick="filterYear('year6', this)">Année 6 - 2025/26</button>
+            <button class="btn btn-secondary" onclick="filterYear('year5', this)">Année 5 - 2024/25</button>
+            <button class="btn btn-secondary" onclick="filterYear('year4', this)">Année 4 - 2023/24</button>
+            <button class="btn btn-secondary" onclick="filterYear('year3', this)">Année 3 - 2022/23</button>
+            <button class="btn btn-secondary" onclick="filterYear('year2', this)">Année 2 - 2021/22</button>
+            <button class="btn btn-secondary" onclick="filterYear('year1', this)">Année 1 - 2020/21</button>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">
+                <h2>Répertoire de l'année sélectionnée</h2>
+                <p>Gestion et accès aux données de la promotion active.</p>
+            </div>
+            <div id="year-content-display" style="background: #f8fafc; padding: 20px; border-radius: 6px; border: 1px dashed var(--border); text-align: center;">
+                <p style="font-weight: 600; margin-bottom: 15px;">Dossier connecté : <span id="current-year-title">Année 7 - 2026/27</span></p>
+                <a href="#" id="drive-link" target="_blank" class="btn btn-secondary" style="background: white;">Ouvrir le dossier Drive ↗</a>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">
+                <h2>Enregistrement d'une nouvelle fiche</h2>
+            </div>
+            <form onsubmit="event.preventDefault(); alert('Fiche enregistrée !');">
+                <div class="form-grid">
+                    <div class="form-group"><label>Nom légal</label><input type="text" required></div>
+                    <div class="form-group"><label>Prénom</label><input type="text" required></div>
+                    <div class="form-group">
+                        <label>Affectation Promotion</label>
+                        <select id="form-year-select">
+                            <option value="year7">Année 7 - 2026/27</option>
+                            <option value="year6">Année 6 - 2025/26</option>
+                            <option value="year5">Année 5 - 2024/25</option>
+                            <option value="year4">Année 4 - 2023/24</option>
+                            <option value="year3">Année 3 - 2022/23</option>
+                            <option value="year2">Année 2 - 2021/22</option>
+                            <option value="year1">Année 1 - 2020/21</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>E-mail institutionnel</label><input type="email" required></div>
+                </div>
+                <button type="submit" class="btn btn-primary">Valider l'inscription</button>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        // Remplir ici les vrais liens Drive de tes années 1 à 7
+        const driveLinks = {
+            year7: { title: "Année 7 - 2026/27", url: "LIEN_DRIVE_ANNEE_7" },
+            year6: { title: "Année 6 - 2025/26", url: "LIEN_DRIVE_ANNEE_6" },
+            year5: { title: "Année 5 - 2024/25", url: "LIEN_DRIVE_ANNEE_5" },
+            year4: { title: "Année 4 - 2023/24", url: "LIEN_DRIVE_ANNEE_4" },
+            year3: { title: "Année 3 - 2022/23", url: "LIEN_DRIVE_ANNEE_3" },
+            year2: { title: "Année 2 - 2021/22", url: "LIEN_DRIVE_ANNEE_2" },
+            year1: { title: "Année 1 - 2020/21", url: "LIEN_DRIVE_ANNEE_1" }
+        };
+
+        function filterYear(yearKey, element) {
+            element.parentElement.querySelectorAll('button').forEach(btn => {
+                btn.style.background = "white"; btn.style.color = "var(--text-main)";
+            });
+            element.style.background = "var(--accent)"; element.style.color = "white";
+            document.getElementById('current-year-title').innerText = driveLinks[yearKey].title;
+            document.getElementById('drive-link').setAttribute('href', driveLinks[yearKey].url);
+            document.getElementById('form-year-select').value = yearKey;
+        }
+    </script>
+</body>
+</html>
