@@ -256,9 +256,10 @@
     </div>
 
     <script>
-        // 1. Liste fixe de tes entreprises issues de ton image
+        // Base de données fixe incluant TOUTES les vagues d'entreprises demandées
         const defaultCompanies = {
             'Alstom': { name: 'Marc Lemaire', email: 'rh.nord@alstom.com', phone: '+33 3 27 51 00 00', loc: 'Petite-Forêt (Valenciennes)', sector: 'Transport & Infrastructures' },
+            'Auchan': { name: 'Responsable Recrutement', email: 'contact@auchan.fr', phone: '+33 3 20 00 00 00', loc: 'Villeneuve-d\'Ascq', sector: 'Grande Distribution' },
             'Banque Populaire': { name: 'Sophie Nowak', email: 'relations-ecoles@bpnord.fr', phone: '+33 3 20 12 34 56', loc: 'Marcq-en-Barœul', sector: 'Banque & Assurance' },
             'Boulanger': { name: 'Julien Verhaghe', email: 'stages.nord@boulanger.fr', phone: '+33 3 20 43 21 00', loc: 'Lesquin', sector: 'Distribution & Retail' },
             'Bouygues Bâtiment': { name: 'Émilie Dubois', email: 'recrutement.nord@bouygues-construction.com', phone: '+33 3 20 16 70 00', loc: 'Villeneuve-d\'Ascq', sector: 'BTP & Construction' },
@@ -266,31 +267,32 @@
             'CHAM': { name: 'Nicolas Legrand', email: 'contact.nord@cham.fr', phone: '+33 3 28 44 88 99', loc: 'Arras', sector: 'Énergie & Services' },
             'CHU': { name: 'Direction des Affaires Médicales', email: 'stages-etudiants@chru-lille.fr', phone: '+33 3 20 44 59 62', loc: 'Lille Centre Hospitalier', sector: 'Santé & Secteur Public' },
             'Crédit Mutuel': { name: 'Mathilde Roussel', email: 'carrieres-nord@cmne.fr', phone: '+33 3 20 76 89 00', loc: 'Lille Centre', sector: 'Banque & Assurance' },
-            'Entreprises & Cités': { name: 'Pierre d\'Hulst', email: 'reseau-nord@entreprisesetcites.com', phone: '+33 3 20 99 44 00', loc: 'Marcq-en-Barœul', sector: 'Réseau d\'Affaires & Conseil' },
+            'Décathlon': { name: 'Service RH Campus', email: 'recrutement@decathlon.com', phone: '+33 3 20 10 20 30', loc: 'Campus Villeneuve-d\'Ascq', sector: 'Sport & Retail' },
+            'Entreprises & Cités': { name: 'Pierre d\'Hulst', email: 'reseau-nord@entreprisesetcites.com', phone: '+33 3 20 09 44 00', loc: 'Marcq-en-Barœul', sector: 'Réseau d\'Affaires & Conseil' },
             'Indelec': { name: 'Guillaume Brochet', email: 'rh@indelec.com', phone: '+33 3 20 24 58 58', loc: 'Douai', sector: 'Industrie & Sécurité' },
-            'Kiabi': { name: 'Clara Descamps', email: 'recrutement-campus@kiabi.com', phone: '+33 3 20 29 55 00', loc: 'Hem', sector: 'Prêt-à-porter & Retail' },
+            'Kiabi': { name: 'Stéphanie Gay / RH Campus', email: 'stephanie.gay@kiabi.com', phone: '+33 3 20 29 55 00', loc: 'Hem (Siège Social)', sector: 'Prêt-à-porter & Retail' },
+            'Leroy Merlin': { name: 'Pôle Relations Écoles', email: 'contact.rh@leroymerlin.fr', phone: '+33 3 20 00 00 00', loc: 'Lezennes', sector: 'Aménagement & Retail' },
             'Lesaffre': { name: 'Audrey Fontaine', email: 'careers.nord@lesaffre.com', phone: '+33 3 20 81 61 00', loc: 'Marcq-en-Barœul', sector: 'Agroalimentaire & Bio-tech' },
             'Lorban TP': { name: 'Frédéric Lorban', email: 'contact.valenciennes@lorban.fr', phone: '+33 3 27 21 54 00', loc: 'Marly', sector: 'Travaux Publics & Génie Civil' },
             'Oney Bank': { name: 'Camille Simon', email: 'stages-alternance@oney.fr', phone: '+33 3 28 38 58 00', loc: 'Croix', sector: 'Services Financiers' },
             'SNCF Axe Nord': { name: 'Régis Dumoulin', email: 'recrutement.nord@sncf.fr', phone: '+33 3 28 53 20 00', loc: 'Lille Flandres', sector: 'Transport Ferroviaire' },
             'SNCF Réseaux': { name: 'Laurent Devos', email: 'contact.reseau-nord@sncf.fr', phone: '+33 3 20 14 65 00', loc: 'Lille Centre', sector: 'Gestion d\'Infrastructure' },
+            'Tape à l\'œil': { name: 'Pôle Talents TAO', email: 'recrutement@tao.com', phone: '+33 3 20 00 00 00', loc: 'Wasquehal', sector: 'Prêt-à-porter Enfant' },
             'Texdecor': { name: 'Valérie Demeestere', email: 'rh@texdecor.com', phone: '+33 3 20 61 71 81', loc: 'Willems', sector: 'Design & Textile' }
         };
 
-        // Charger la base globale (Combiner le fixe + les ajouts utilisateur sauvegardés)
         function getCompanyDatabase() {
             const saved = localStorage.getItem('custom_companies');
             const customCompanies = saved ? JSON.parse(saved) : {};
             return { ...defaultCompanies, ...customCompanies };
         }
 
-        // 2. Générer l'affichage de la grille HTML
         function renderCompanies() {
             const database = getCompanyDatabase();
             const container = document.getElementById('companies-container');
-            container.innerHTML = ''; // Clear la liste
+            container.innerHTML = '';
 
-            Object.keys(database).forEach(key => {
+            Object.keys(database).sort().forEach(key => {
                 const comp = database[key];
                 const card = document.createElement('div');
                 card.className = 'company-card';
@@ -300,13 +302,12 @@
                         <h3>${key}</h3>
                         <p>${comp.sector || 'Partenaire Enregistré'}</p>
                     </div>
-                    <div class="region-badge">${comp.loc.includes('Axe Nord') ? 'Axe Nord' : 'Axe Nord - ' + comp.loc}</div>
+                    <div class="region-badge">${comp.loc}</div>
                 `;
                 container.appendChild(card);
             });
         }
 
-        // 3. Gérer la soumission de ton formulaire de saisie
         function handleFormSubmit(event) {
             event.preventDefault();
 
@@ -317,11 +318,9 @@
 
             if (!name || !contact || !email || !phone) return;
 
-            // Récupérer les entreprises custom déjà créées
             const saved = localStorage.getItem('custom_companies');
             const customCompanies = saved ? JSON.parse(saved) : {};
 
-            // Ajouter la nouvelle dedans
             customCompanies[name] = {
                 name: contact,
                 email: email,
@@ -330,19 +329,13 @@
                 sector: 'Nouveau Partenaire'
             };
 
-            // Sauvegarder dans le navigateur
             localStorage.setItem('custom_companies', JSON.stringify(customCompanies));
-
-            // Reset le formulaire
             document.getElementById('add-company-form').reset();
-
-            // Recharger la grille immédiatement
             renderCompanies();
             
-            alert(`L'entreprise "${name}" a bien été ajoutée au système.`);
+            alert(`L'entreprise "${name}" a été correctement ajoutée.`);
         }
 
-        // 4. Ouvrir la pop-up avec les infos correspondantes
         function openCompanyModal(companyKey) {
             const database = getCompanyDatabase();
             const company = database[companyKey];
@@ -352,9 +345,7 @@
                 document.getElementById('modal-contact-email').innerText = company.email;
                 document.getElementById('modal-contact-phone').innerText = company.phone;
                 document.getElementById('modal-contact-loc').innerText = company.loc;
-                
                 document.getElementById('modal-drive-btn').setAttribute('href', 'https://drive.google.com/drive/search?q=' + encodeURIComponent(companyKey));
-                
                 document.getElementById('contactModal').classList.add('active');
             }
         }
@@ -363,7 +354,6 @@
             document.getElementById('contactModal').classList.remove('active');
         }
 
-        // Initialisation de la page au chargement
         window.onload = renderCompanies;
     </script>
 </body>
