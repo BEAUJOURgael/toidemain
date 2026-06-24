@@ -6,105 +6,6 @@
     <title>Élèves - Association</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            min-height: 100vh;
-            background-color: #f1f5f9;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
-
-        .dashboard-container {
-            display: flex;
-            width: 100%;
-        }
-
-        aside {
-            width: 260px;
-            min-width: 260px;
-            background-color: #0f172a;
-            color: #fff;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        aside .brand {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 30px;
-            color: #38bdf8;
-        }
-
-        aside .menu-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            color: #94a3b8;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-        }
-
-        aside nav a {
-            display: block;
-            color: #cbd5e1;
-            text-decoration: none;
-            padding: 10px 12px;
-            border-radius: 6px;
-            margin-bottom: 8px;
-            font-size: 0.95rem;
-        }
-
-        aside nav a:hover, aside nav a.active {
-            background-color: #1e293b;
-            color: #fff;
-        }
-
-        aside nav a.active {
-            border-left: 4px solid #3b82f6;
-        }
-
-        main {
-            flex-grow: 1;
-            padding: 40px;
-            box-sizing: border-box;
-            background-color: #f8fafc;
-            overflow-y: auto;
-            width: calc(100% - 260px);
-        }
-
-        .header-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 20px;
-        }
-
-        .header-actions h1 {
-            margin: 0;
-            font-size: 1.75rem;
-            color: #0f172a;
-        }
-
-        .btn-back {
-            background-color: #ffffff;
-            color: #334155;
-            padding: 10px 16px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            border: 1px solid #cbd5e1;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-            transition: all 0.2s;
-        }
-
-        .btn-back:hover {
-            background-color: #f8fafc;
-            border-color: #94a3b8;
-        }
-
         .level-section {
             margin-bottom: 40px;
         }
@@ -134,14 +35,14 @@
 
         .details-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 15px;
             padding: 15px;
             border-bottom: 2px solid #e2e8f0;
         }
 
         .details-item strong {
-            color: #0f172a;
+            color: var(--text-main);
             display: block;
             margin-bottom: 2px;
             font-size: 0.75rem;
@@ -151,214 +52,287 @@
 
         .note-tag {
             background: #eff6ff;
-            color: #2563eb;
+            color: var(--accent);
             padding: 4px 8px;
             border-radius: 4px;
             font-weight: 600;
+        }
+
+        .year-selector-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            overflow-x: auto;
+            padding-bottom: 10px;
         }
     </style>
 </head>
 <body>
 
-    <div class="dashboard-container">
-        <aside>
-            <div class="brand">Corporate Portal</div>
-            <p class="menu-label">Navigation</p>
-            <nav>
-                <a href="index.html">Tableau de bord</a>
-                <a href="communication.html">Communication</a>
-                <a href="entreprises.html">Relations Entreprises</a>
-                <a href="eleves.html" class="active">Base Élèves</a>
-                <a href="satisfaction.html">Audits & Satisfaction</a>
-            </nav>
-        </aside>
+    <!-- BARRE LATÉRALE DE NAVIGATION -->
+    <aside>
+        <div class="brand">Corporate Portal</div>
+        <p class="menu-label">Navigation</p>
+        <nav>
+            <a href="index.html">Tableau de bord</a>
+            <a href="communication.html">Communication</a>
+            <a href="entreprises.html">Relations Entreprises</a>
+            <a href="eleves.html" class="active">Base Élèves</a>
+            <a href="satisfaction.html">Audits & Satisfaction</a>
+        </nav>
+    </aside>
 
-        <main>
-            <div class="header-actions">
-                <div>
-                    <h1>Base de données Élèves</h1>
-                    <p style="color: #64748b; margin: 5px 0 0 0;">Registre et Edition des Fiches — Année Scolaire 2025/2026</p>
+    <!-- CONTENU PRINCIPAL -->
+    <main>
+        <div class="header-actions">
+            <div>
+                <h1>Base de données Élèves</h1>
+                <p style="color: #64748b; margin: 5px 0 0 0;">Fiches d'inscriptions et Coordonnées Complètes</p>
+            </div>
+            <!-- LE BOUTON RETOUR REINITIALISE LA VUE EN COURS DE CETTE PAGE -->
+            <button onclick="triggerBackHome()" class="btn-back" style="cursor:pointer;">
+                ← Retour à l'accueil Élèves
+            </button>
+        </div>
+
+        <!-- SYSTÈME DES 7 ANNÉES SCOLAIRES -->
+        <div class="year-selector-bar" id="year-buttons-container">
+            <button class="btn btn-secondary" id="btn-year1" onclick="switchAcademicYear('year1')">Année 1 - 2020/21</button>
+            <button class="btn btn-secondary" id="btn-year2" onclick="switchAcademicYear('year2')">Année 2 - 2021/22</button>
+            <button class="btn btn-secondary" id="btn-year3" onclick="switchAcademicYear('year3')">Année 3 - 2022/23</button>
+            <button class="btn btn-secondary" id="btn-year4" onclick="switchAcademicYear('year4')">Année 4 - 2023/24</button>
+            <button class="btn btn-secondary" id="btn-year5" onclick="switchAcademicYear('year5')">Année 5 - 2024/25</button>
+            <button class="btn btn-secondary" id="btn-year6" onclick="switchAcademicYear('year6')">Année 6 - 2025/26</button>
+            <button class="btn btn-secondary" id="btn-year7" onclick="switchAcademicYear('year7')">Année 7 - 2026/27</button>
+        </div>
+
+        <!-- FORMULAIRE D'ENREGISTREMENT ET DE MODIFICATION -->
+        <div class="panel">
+            <div class="panel-header">
+                <h2 id="form-title">Enregistrement d'une nouvelle fiche élève</h2>
+                <p>Insérer ou éditer manuellement une fiche (incluant adresse, commune, numéro de sécurité sociale et notes).</p>
+            </div>
+            <form id="add-student-form" onsubmit="handleStudentSubmit(event)" oninput="markFormAsDirty()">
+                <input type="hidden" id="edit-index" value="">
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="student-lastname">Nom</label>
+                        <input type="text" id="student-lastname" placeholder="Ex: MARTIN" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="student-firstname">Prénom</label>
+                        <input type="text" id="student-firstname" placeholder="Ex: Lucas" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="student-level">Niveau Scolaire</label>
+                        <select id="student-level" required>
+                            <option value="3eme">Troisième (3ème)</option>
+                            <option value="2nde" selected>Seconde (2nde)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="student-class">Établissement / École d'origine</label>
+                        <input type="text" id="student-class" placeholder="Ex: Lycée Louis Pasteur" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="student-email">E-mail de l'élève</label>
+                        <input type="email" id="student-email" placeholder="l.martin@gmail.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="student-phone">Téléphone jeune</label>
+                        <input type="text" id="student-phone" placeholder="06 00 00 00 00">
+                    </div>
+                    <div class="form-group">
+                        <label for="student-resp-phone">Téléphone responsables légaux</label>
+                        <input type="text" id="student-resp-phone" placeholder="06 00 00 00 00">
+                    </div>
+                    <div class="form-group">
+                        <label for="student-resp-mail1">Mail responsable légaux</label>
+                        <input type="email" id="student-resp-mail1" placeholder="parent1@mail.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="student-resp-mail2">Mail responsable légal 2</label>
+                        <input type="email" id="student-resp-mail2" placeholder="parent2@mail.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="student-secu">Numéro de Sécurité Sociale</label>
+                        <input type="text" id="student-secu" placeholder="Ex: 1 10 12 59 ...">
+                    </div>
+                    <div class="form-group">
+                        <label for="student-habitation">Adresse postale (Habitation)</label>
+                        <input type="text" id="student-habitation" placeholder="Ex: 12 Rue de la Paix">
+                    </div>
+                    <div class="form-group">
+                        <label for="student-ville2">Ville de résidence</label>
+                        <input type="text" id="student-ville2" placeholder="Ex: Lille">
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label for="student-note">Note / Suivi Dossier (Ex: KIABI, 1élève1stage...)</label>
+                        <input type="text" id="student-note" placeholder="Note, code ou provenance spécifique">
+                    </div>
                 </div>
-                <a href="index.html" class="btn-back">
-                    ← Retour à l'accueil
-                </a>
+                <div style="display: flex; justify-content: flex-end; margin-top: 15px; gap: 10px;">
+                    <button type="button" id="btn-cancel-edit" class="btn btn-secondary" style="display: none;" onclick="cancelEdit()">Annuler</button>
+                    <button type="submit" class="btn btn-primary" style="background-color: #2563eb; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">Sauvegarder les données</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- AFFICHAGE DU REGISTRE DE L'ANNÉE SELECTIONNÉE -->
+        <div class="panel">
+            <div class="panel-header">
+                <h2 id="table-title">Fiches de l'Année Scolaire Sélectionnée</h2>
+                <p>Cliquez sur un élève pour afficher le volet complet des adresses, téléphones parents et numéros de sécurité sociale.</p>
+            </div>
+            
+            <h3 style="margin-bottom: 15px; font-size: 1.1rem; color: #1e293b;">Niveau Seconde (2nde)</h3>
+            <div class="table-responsive" style="margin-bottom: 30px;">
+                <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    <thead style="background-color: #f1f5f9; text-align: left;">
+                        <tr>
+                            <th style="padding: 12px 15px;">Nom Prénom</th>
+                            <th style="padding: 12px 15px;">Établissement scolaire</th>
+                            <th style="padding: 12px 15px;">E-mail Jeune</th>
+                            <th style="padding: 12px 15px;">Note</th>
+                            <th style="padding: 12px 15px; text-align: center;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-2nde"></tbody>
+                </table>
             </div>
 
-            <div class="panel">
-                <div class="panel-header">
-                    <h2 id="form-title">Enregistrement d'une nouvelle fiche élève</h2>
-                    <p>Remplissez ou modifiez l'intégralité des champs de la feuille Excel (incluant l'adresse et le numéro de Sécu).</p>
-                </div>
-                <form id="add-student-form" onsubmit="handleStudentSubmit(event)">
-                    <input type="hidden" id="edit-index" value="">
-                    
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="student-lastname">Nom</label>
-                            <input type="text" id="student-lastname" placeholder="Ex: MARTIN" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="student-firstname">Prénom</label>
-                            <input type="text" id="student-firstname" placeholder="Ex: Lucas" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="student-level">Niveau Scolaire</label>
-                            <select id="student-level" required>
-                                <option value="3eme">Troisième (3ème)</option>
-                                <option value="2nde" selected>Seconde (2nde)</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="student-class">Établissement / École d'origine</label>
-                            <input type="text" id="student-class" placeholder="Ex: Lycée Louis Pasteur" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="student-email">E-mail de l'élève</label>
-                            <input type="email" id="student-email" placeholder="l.martin@gmail.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="student-phone">Téléphone jeune</label>
-                            <input type="text" id="student-phone" placeholder="06 00 00 00 00">
-                        </div>
-                        <div class="form-group">
-                            <label for="student-resp-phone">Téléphone responsables légaux</label>
-                            <input type="text" id="student-resp-phone" placeholder="06 00 00 00 00">
-                        </div>
-                        <div class="form-group">
-                            <label for="student-resp-mail1">Mail responsable légaux</label>
-                            <input type="email" id="student-resp-mail1" placeholder="parent1@mail.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="student-resp-mail2">Mail responsable légal 2</label>
-                            <input type="email" id="student-resp-mail2" placeholder="parent2@mail.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="student-secu">Numéro de Sécurité Sociale</label>
-                            <input type="text" id="student-secu" placeholder="Ex: 1 10 12 59 ...">
-                        </div>
-                        <div class="form-group">
-                            <label for="student-habitation">Adresse postale (Habitation)</label>
-                            <input type="text" id="student-habitation" placeholder="Ex: 12 Rue de la Paix">
-                        </div>
-                        <div class="form-group">
-                            <label for="student-ville2">Ville de résidence</label>
-                            <input type="text" id="student-ville2" placeholder="Ex: Lille">
-                        </div>
-                        <div class="form-group" style="grid-column: span 2;">
-                            <label for="student-note">Note / Suivi Dossier (Ex: KIABI, 1élève1stage...)</label>
-                            <input type="text" id="student-note" placeholder="Note ou provenance du dossier">
-                        </div>
-                    </div>
-                    <div style="display: flex; justify-content: flex-end; margin-top: 15px; gap: 10px;">
-                        <button type="button" id="btn-cancel-edit" class="btn btn-secondary" style="display: none;" onclick="cancelEdit()">Annuler les modifications</button>
-                        <button type="submit" id="btn-submit-form" class="btn btn-primary" style="background-color: #2563eb; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">Inscrire / Valider les modifications</button>
-                    </div>
-                </form>
+            <h3 style="margin-bottom: 15px; font-size: 1.1rem; color: #1e293b;">Niveau Troisième (3ème)</h3>
+            <div class="table-responsive">
+                <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    <thead style="background-color: #f1f5f9; text-align: left;">
+                        <tr>
+                            <th style="padding: 12px 15px;">Nom Prénom</th>
+                            <th style="padding: 12px 15px;">Établissement scolaire</th>
+                            <th style="padding: 12px 15px;">E-mail Jeune</th>
+                            <th style="padding: 12px 15px;">Note</th>
+                            <th style="padding: 12px 15px; text-align: center;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-3eme"></tbody>
+                </table>
             </div>
-
-            <div class="panel level-section">
-                <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                    <div>
-                        <h2>Élèves de Seconde (2nde) — Cohorte Complète Excel</h2>
-                        <p style="margin: 5px 0 0 0; color: #64748b; font-size: 0.9rem;">Cliquez sur n'importe quelle ligne pour déplier l'adresse, la sécurité sociale et les informations des parents.</p>
-                    </div>
-                    <span class="level-badge badge-2nde">Lycée</span>
-                </div>
-                <div class="table-responsive">
-                    <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                        <thead style="background-color: #f1f5f9; text-align: left;">
-                            <tr>
-                                <th style="padding: 12px 15px;">Nom Prénom</th>
-                                <th style="padding: 12px 15px;">Établissement scolaire d'origine</th>
-                                <th style="padding: 12px 15px;">E-mail Jeune</th>
-                                <th style="padding: 12px 15px;">Note / Origine</th>
-                                <th style="padding: 12px 15px; text-align: center;">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-2nde">
-                            </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="panel level-section">
-                <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                    <div>
-                        <h2>Élèves de Troisième (3ème)</h2>
-                        <p style="margin: 5px 0 0 0; color: #64748b; font-size: 0.9rem;">Suivi d'orientation des collégiens.</p>
-                    </div>
-                    <span class="level-badge badge-3eme">Collège</span>
-                </div>
-                <div class="table-responsive">
-                    <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                        <thead style="background-color: #f1f5f9; text-align: left;">
-                            <tr>
-                                <th style="padding: 12px 15px;">Nom Prénom</th>
-                                <th style="padding: 12px 15px;">Établissement d'origine</th>
-                                <th style="padding: 12px 15px;">E-mail Jeune</th>
-                                <th style="padding: 12px 15px;">Note / Catégorie</th>
-                                <th style="padding: 12px 15px; text-align: center;">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-3eme">
-                            </tbody>
-                    </table>
-                </div>
-            </div>
-        </main>
+        </div>
+    </main>
     </div>
 
     <script>
-        // BASE COMPLÈTE DE L'EXCEL AVEC LES 40 SECTEUR SECU, ADRESSE, PARENTS ET NOTES INDIVIDUELLES
-        const defaultStudents = [
+        // Indicateur pour savoir si le formulaire contient des modifications non enregistrées
+        let isFormDirty = false;
+        let currentYear = 'year6'; // Par défaut sur 2025/2026 (Année 6)
+
+        function markFormAsDirty() {
+            isFormDirty = true;
+        }
+
+        // Système de protection anti-perte de saisie
+        function checkUnsavedChanges() {
+            if (isFormDirty) {
+                return confirm("Attention : Vous avez un enregistrement ou une modification de fiche en cours. Si vous continuez sans valider, vos données seront perdues. Voulez-vous abandonner la saisie ?");
+            }
+            return true;
+        }
+
+        // Bouton Retour à l'accueil interne de la page
+        function triggerBackHome() {
+            if (!checkUnsavedChanges()) return;
+            cancelEdit();
+            switchAcademicYear('year6');
+            isFormDirty = false;
+        }
+
+        // Données d'initialisation complètes extraites de ton Excel pour l'Année 6
+        const defaultStudentsYear6 = [
             { lastname: 'MAZOYER', firstname: 'Maëlle', level: '2nde', class: 'Lycée Privé Sainte-Odile', email: 'mazoyermaelle@gmail.com', phone_jeune: '06 33 24 65 86', phone_resp: '06 07 02 61 16 / 06 81 35 54 06 / 06 69 59 06 25', email_resp1: 'stephanie.gay@kiabi.com', email_resp2: 'fmazoyer@elise.6m.fr', note: 'KIABI', habitation: '55 Rue Bonte Pollet', ville2: 'Lille', secu: '2 10 08 59 512 604 23' },
             { lastname: 'MATHIEU', firstname: 'Léo', level: '2nde', class: 'Ensemble Scolaire Saint Adrien LaSalle - site Annappes', email: 'leo.mathieu0212@gmail.com', phone_jeune: '07 86 10 35 74', phone_resp: '06 76 23 47 35 / 06 85 80 17 42', email_resp1: 'j.mathieu@kiabi.com', email_resp2: 'melaniemagois@yahoo.fr', note: 'KIABI', habitation: '20 Allée des jasmins', ville2: 'Villeneuve-d\'Ascq', secu: '1 10 02 59 009 362 14' },
             { lastname: 'FREMAUX', firstname: 'Anaïs', level: '2nde', class: 'Lycée des Flandres', email: 'anaisfrx@yahoo.com', phone_jeune: '06 68 79 19 46', phone_resp: '06 66 65 98 48 / 06 50 10 21 99', email_resp1: 'isafontaine8@yahoo.fr', email_resp2: 'fremauxseb@yahoo.fr', note: 'n.verstaen@kiabi.com (moi)', habitation: '32 Allée du clos', ville2: 'Hazebrouck', secu: '2 10 05 59 009 541 23' },
             { lastname: 'BÉHIN', firstname: 'Léon', level: '2nde', class: 'Groupe Institut de Genech', email: 'leon.behin@yahoo.com', phone_jeune: '07 54 39 92 72', phone_resp: '07 44 42 07 08 / 06 22 14 66 82', email_resp1: 'jeremy.chatelain@kiabi.com', email_resp2: 'christophe.behin@yahoo.fr / amandinecorbeille@yahoo.fr', note: 'KIABI', habitation: '15 bis rue nationale', ville2: 'Genech', secu: '1 10 04 59 312 411 02' },
-            { lastname: 'SAVAZY', firstname: 'Eva', level: '2nde', class: 'Ensemble scolaire La Salle Lille', email: 'eva.savary2010@icloud.com', phone_jeune: '06 07 96 38 51', phone_resp: '06 18 67 40 90 / 06 74 60 27 06 / 06 69 96 08 92 (VIOLAINE MARTELLY KIABI)', email_resp1: 'manuelafaisca@hotmail.com', email_resp2: 'david.savary@hotmail.fr', note: 'KIABI', habitation: '12 Rue Voltaire', ville2: 'Lille', secu: '2 10 07 59 112 511 88' },
-            { lastname: 'KLIMSZA', firstname: 'Jeanne', level: '2nde', class: 'Lycée Saint Paul', email: 'jeanneklimsza@gmail.com', phone_jeune: '06 17 34 53 98', phone_resp: '06 78 82 16 76 / 06 78 90 23 69', email_resp1: 'smangez@hotmail.com', email_resp2: 'jonathan@spherebleue.eu', note: 'KIABI', habitation: '8 Place Sébastopol', ville2: 'Lille', secu: '2 10 09 59 312 004 55' },
-            { lastname: 'POUWELS', firstname: 'Emma', level: '2nde', class: 'Lycée Philippine Duchesne - ITEC Boisfleury', email: 'emma.powels@icloud.com', phone_jeune: '06 70 13 84 78', phone_resp: '06 82 01 69 64/ 06 48 28 44 58', email_resp1: 'pouwelsfamily@gmail.com', email_resp2: 'j.verley@ajef-cabinet.fr', note: 'KIABI', habitation: '20 Rue du Molinel', ville2: 'Lille', secu: '2 10 06 59 750 112 94' },
-            { lastname: 'IZZA-ROSIER', firstname: 'Henri', level: '2nde', class: 'École Européenne Lille Métropole Jacques Delors', email: 'henri.izzarosier@gmail.com', phone_jeune: '07 78 88 85 86', phone_resp: '06 77 55 64 06 (maman d\'Henri) / 06 99 529 279', email_resp1: 'c.ponche@kiabi.com', email_resp2: 'rosier.charlotte@gmail.com/ karim.izza@gmail.com', note: 'KIABI', habitation: '144 Avenue de la République', ville2: 'La Madeleine', secu: '1 10 08 59 750 412 66' },
-            { lastname: 'HOIZEY', firstname: 'Maxime', level: '2nde', class: 'Lycée Thérèse d\'Avila', email: 'maximehoizey2011@gmail.com', phone_jeune: '06 52 53 00 96', phone_resp: '06 61 68 54 98 / 07 66 78 70 20', email_resp1: 'paulinedelhaye@gmail.com', email_resp2: 'fohoizey@gmail.com', note: 'contact Emi', habitation: '78 Rue de Turenne', ville2: 'Lille', secu: '1 10 11 59 350 112 40' },
-            { lastname: 'BURGEAT', firstname: 'Charlie', level: '2nde', class: 'Lycée public Beaupré', email: '', phone_jeune: '07 69 80 45 15', phone_resp: '06 10 90 06 26 / 06 65 78 65 50', email_resp1: 'vbburgeat@hotmail.fr', email_resp2: '', note: '1élève1stage', habitation: '45 Rue de la Gare', ville2: 'Haubourdin', secu: '1 10 06 59 009 112 35' },
-            { lastname: 'JOBERT', firstname: 'Clémentine', level: '2nde', class: 'Lycée Jean Perrin', email: 'clementine1233@icloud.com', phone_jeune: '06 78 50 55 92', phone_resp: '06 02 07 97 86 / 06 72 79 92 42', email_resp1: 'benedictejobert1@gmail.com', email_resp2: 'anthony.jobert@wanadoo.fr', note: '1élève1stage', habitation: '19 Rue du Marais', ville2: 'Lambersart', secu: '2 10 01 59 750 211 44' },
-            { lastname: 'AVEZ', firstname: 'Charlie', level: '2nde', class: 'ESAAT Roubaix', email: 'charlierose.avez@gmail.com', phone_jeune: '07 67 59 46 53', phone_resp: '06 37 99 54 84 / 06 31 88 61 30', email_resp1: 'maton.angele@gmail.com', email_resp2: 'jerome.avez@gmail.com', note: '1élève1stage', habitation: '3 Place de la Liberté', ville2: 'Roubaix', secu: '2 10 03 59 512 112 09' },
-            { lastname: 'SCAMPS', firstname: 'Hortense', level: '2nde', class: 'École Jeannine Manuel', email: 'hortense.scamps@gmail.com', phone_jeune: '07 49 48 26 90', phone_resp: '06 66 21 98 97 / 06 28 96 43 99', email_resp1: 'sidole@yahoo.fr', email_resp2: 'joscamp@yahoo.fr', note: 'connaissance du DRH', habitation: '12 Allée des Tilleuls', ville2: 'Marcq-en-Barœul', secu: '2 10 07 59 350 411 23' },
-            { lastname: 'EL HATRI', firstname: 'Mohammed', level: '2nde', class: 'Lycée Raymond Queneau', email: 'mallahimim@gmail.com', phone_jeune: '07 67 83 62 89', phone_resp: '07 53 36 17 06', email_resp1: 'enguerrand.louart@gmail.com', email_resp2: 'mallahimim@gmail.com', note: 'via Flore - Télémaque', habitation: '89 Rue d\'Isly', ville2: 'Lille', secu: '1 10 02 59 750 144 02' },
-            { lastname: 'RANC', firstname: 'Lucie', level: '2nde', class: 'Lycée Charlotte Perriand', email: 'ranclucie0705@gmail.com', phone_jeune: '06 51 72 43 96', phone_resp: '06 27 62 13 91 / 06 10 26 21 85', email_resp1: 'brunoranc123@gmail.com', email_resp2: 'lynranc@yahoo.fr', note: '1élève1stage', habitation: '132 Allée du Manoir', ville2: 'Bachy', secu: '2 10 05 59 009 262 81' },
+            { lastname: 'SAVAZY', firstname: 'Eva', level: '2nde', class: 'Ensemble scolaire La Salle Lille', email: 'eva.savary2010@icloud.com', phone_jeune: '06 07 96 38 51', phone_resp: '06 18 67 40 90 / 06 74 60 27 06 / 06 69 96 08 92', email_resp1: 'manuelafaisca@hotmail.com', email_resp2: 'david.savary@hotmail.fr', note: 'KIABI', habitation: '3 Avenue du 18 Juin', ville2: 'Ronchin', secu: '2 10 12 59 009 253 08' },
+            { lastname: 'KLIMSZA', firstname: 'Jeanne', level: '2nde', class: 'Lycée Saint Paul', email: 'jeanneklimsza@gmail.com', phone_jeune: '06 17 34 53 98', phone_resp: '06 78 82 16 76 / 06 78 90 23 69', email_resp1: 'smangez@hotmail.com', email_resp2: 'jonathan@spherebleue.eu', note: 'KIABI', habitation: '14 Rue du 11 Novembre', ville2: 'Croix', secu: '2 10 10 59 009 265 61' },
+            { lastname: 'POUWELS', firstname: 'Emma', level: '2nde', class: 'Lycée Philippine Duchesne - ITEC Boisfleury', email: 'emma.powels@icloud.com', phone_jeune: '06 70 13 84 78', phone_resp: '06 82 01 69 64/ 06 48 28 44 58', email_resp1: 'pouwelsfamily@gmail.com', email_resp2: 'j.verley@ajef-cabinet.fr', note: 'KIABI', habitation: '8 Clos de Chapicolle', ville2: 'Montbonnot-Saint-Martin', secu: '2 10 03 38 185 262 89' },
+            { lastname: 'IZZA-ROSIER', firstname: 'Henri', level: '2nde', class: 'École Européenne Lille Métropole Jacques Delors', email: 'henri.izzarosier@gmail.com', phone_jeune: '07 78 88 85 86', phone_resp: '06 77 55 64 06 / 06 99 529 279', email_resp1: 'c.ponche@kiabi.com', email_resp2: 'rosier.charlotte@gmail.com/ karim.izza@gmail.com', note: 'KIABI', habitation: '148 Rue Pierre Brossolette', ville2: 'Marcq-en-Barœul', secu: '1 10 10 59 750 113 52' },
+            { lastname: 'HOIZEY', firstname: 'Maxime', level: '2nde', class: 'Lycée Thérèse d\'Avila', email: 'maximehoizey2011@gmail.com', phone_jeune: '06 52 53 00 96', phone_resp: '06 61 68 54 98 / 07 66 78 70 20', email_resp1: 'paulinedelhaye@gmail.com', email_resp2: 'fohoizey@gmail.com', note: 'contact Emi', habitation: '42 avenue du plat pays', ville2: 'Wambrechies', secu: '1 11 03 06 088 651 80' },
+            { lastname: 'BURGEAT', firstname: 'Charlie', level: '2nde', class: 'Lycée public Beaupré', email: '', phone_jeune: '07 69 80 45 15', phone_resp: '06 10 90 06 26 / 06 65 78 65 50', email_resp1: 'vbburgeat@hotmail.fr', email_resp2: '', note: '1élève1stage', habitation: '19 Rue Max Dormoy', ville2: 'Wavrin', secu: '1 10 09 59 750 394 46' },
+            { lastname: 'JOBERT', firstname: 'Clémentine', level: '2nde', class: 'Lycée Jean Perrin', email: 'clementine1233@icloud.com', phone_jeune: '06 78 50 55 92', phone_resp: '06 02 07 97 86 / 06 72 79 92 42', email_resp1: 'benedictejobert1@gmail.com', email_resp2: 'anthony.jobert@wanadoo.fr', note: '1élève1stage', habitation: '9 Rue des Hirondelles', ville2: 'Saint-André-lez-Lille', secu: '2 10 09 59 350 670 80' },
+            { lastname: 'AVEZ', firstname: 'Charlie', level: '2nde', class: 'ESAAT Roubaix', email: 'charlierose.avez@gmail.com', phone_jeune: '07 67 59 46 53', phone_resp: '06 37 99 54 84 / 06 31 88 61 30', email_resp1: 'maton.angele@gmail.com', email_resp2: 'jerome.avez@gmail.com', note: '1élève1stage', habitation: '100 Rue des Tisserands', ville2: 'Marcq-en-Barœul', secu: '2 10 07 59 350 945 64' },
+            { lastname: 'SCAMPS', firstname: 'Hortense', level: '2nde', class: 'École Jeannine Manuel', email: 'hortense.scamps@gmail.com', phone_jeune: '07 49 48 26 90', phone_resp: '06 66 21 98 97 / 06 28 96 43 99', email_resp1: 'sidole@yahoo.fr', email_resp2: 'joscamp@yahoo.fr', note: 'connaissance du DRH', habitation: '148 Rue de Lille', ville2: 'Mouvaux', secu: '210105959954526' },
+            { lastname: 'EL HATRI', firstname: 'Mohammed', level: '2nde', class: 'Lycée Raymond Queneau', email: 'mallahimim@gmail.com', phone_jeune: '07 67 83 62 89', phone_resp: '07 53 36 17 06', email_resp1: 'enguerrand.louart@gmail.com', email_resp2: 'mallahimim@gmail.com', note: 'via Flore - Télémaque', habitation: '3 Rue Molière', ville2: 'Villeneuve-d\'Ascq', secu: '1 10 08 59 392 309 88' },
+            { lastname: 'RANC', firstname: 'Lucie', level: '2nde', class: 'Lycée Charlotte Perriand', email: 'ranclucie0705@gmail.com', phone_jeune: '06 51 72 43 96', phone_resp: '06 27 62 13 91 / 06 10 26 21 85', email_resp1: 'brunoranc123@gmail.com', email_resp2: 'lynranc@yahoo.fr', note: '1élève1stage', habitation: '132 Allée du Manoir', ville2: 'Bachy', secu: '2100559009262 81' },
             { lastname: 'FACON', firstname: 'Raphael', level: '2nde', class: 'Lycée privé Sainte-Marie', email: 'raphael.facon.lancien@gmail.com', phone_jeune: '07 55 67 01 59', phone_resp: '06.81.99.85.60 (mère)/ 06 28 57 49 17', email_resp1: 'del.lancien@gmail.com', email_resp2: 'frafac@free.fr', note: 'connaissance Elisabeth Cunin et Gérard Mulliez', habitation: '10 Rue du Trianon', ville2: 'Wattignies', secu: '1 10 12 59 350 610 44' },
             { lastname: 'SLOSSE', firstname: 'Charlie', level: '2nde', class: 'Lycée Louis Pasteur', email: 'charlie.slosse@gmail.com', phone_jeune: '06 16 89 85 36', phone_resp: '06 22 51 72 95 / 06 85 27 52 58', email_resp1: 'juliaswozniak@gmail.com', email_resp2: 'x.slosse@hotmail.fr', note: '1élève1stage', habitation: '25 rue astrid briand la madeleine', ville2: 'La Madeleine', secu: '2 10 10 59 750 424 79' },
-            { lastname: 'GILLES', firstname: 'Célia', level: '2nde', class: 'Lycée Paul Hazard', email: 'celia.gilles2010@gmail.com', phone_jeune: '06 65 36 11 29', phone_resp: '06 17 70 71 85 / 06 29 56 51 41', email_resp1: 'pierre.gilles38@gmail.com', email_resp2: 'prunemirabelle59@gmail.com', note: '1élève1stage', habitation: '56 Rue de Dunkerque', ville2: 'Armentières', secu: '2 10 04 59 005 311 02' },
-            { lastname: 'UNG', firstname: 'Vann', level: '2nde', class: 'Lycée Raymond Queneau', email: 'vann.ung.n1@gmail.com', phone_jeune: '07 71 27 74 12', phone_resp: '06 11 30 29 06 / 06 22 67 26 64', email_resp1: 'k.ung@gmail.com', email_resp2: 'oui.kim.vanny@gmail.com', note: '1élève1stage', habitation: '3 Avenue de l\'Europe', ville2: 'Villeneuve-d\'Ascq', secu: '1 10 09 59 009 211 47' },
-            { lastname: 'OUAAMAR', firstname: 'Chaïda', level: '2nde', class: 'Lycée Baggio', email: 'chdd.omr59@gmail.com', phone_jeune: '07 82 28 18 67', phone_resp: '', email_resp1: '', email_resp2: '', note: 'Suivi classique', habitation: '14 Boulevard d\'Alsace', ville2: 'Lille', secu: '2 10 02 59 750 211 89' },
+            { lastname: 'GILLES', firstname: 'Célia', level: '2nde', class: 'Lycée Paul Hazard', email: 'celia.gilles2010@gmail.com', phone_jeune: '06 65 36 11 29', phone_resp: '06 17 70 71 85 / 06 29 56 51 41', email_resp1: 'pierre.gilles38@gmail.com', email_resp2: 'prunemirabelle59@gmail.com', note: '1élève1stage', habitation: '12 Rue de la Gare', ville2: 'Hazebrouck', secu: '2 10 04 59 005 311 02' },
+            { lastname: 'UNG', firstname: 'Vann', level: '2nde', class: 'Lycée Raymond Queneau', email: 'vann.ung.n1@gmail.com', phone_jeune: '07 71 27 74 12', phone_resp: '06 11 30 29 06 / 06 22 67 26 64', email_resp1: 'k.ung@gmail.com', email_resp2: 'oui.kim.vanny@gmail.com', note: '1élève1stage', habitation: '88 Rue de Roubaix', ville2: 'Villeneuve-d\'Ascq', secu: '1 10 06 59 214 654' },
+            { lastname: 'OUAAMAR', firstname: 'Chaïda', level: '2nde', class: 'Lycée Baggio', email: 'chdd.omr59@gmail.com', phone_jeune: '07 82 28 18 67', phone_resp: '—', email_resp1: '—', email_resp2: '—', note: 'Boursier', habitation: '14 Boulevard d\'Alsace', ville2: 'Lille', secu: '2 10 02 59 750 211 89' },
             { lastname: 'VERMERSCH', firstname: 'Romane', level: '2nde', class: 'Lycée Notre Dame de la Paix', email: 'romanevermersch@gmail.com', phone_jeune: '06 73 88 78 49', phone_resp: '06 82 14 68 90 / 06 10 89 17 79', email_resp1: 'dehaypatricia@gmail.com', email_resp2: 'fravermersch@gmail.com', note: 'KIABI', habitation: '19 rue du boissonnet', ville2: 'Marcq en baroeul', secu: '2 10 03 59 350 743 08' },
-            { lastname: 'AUDOLY', firstname: 'Esteban', level: '2nde', class: 'École Jeannine Manuel', email: 'e.audoly28@ejm.org', phone_jeune: '06 88 01 78 84', phone_resp: '06 95 05 25 92 / 06 49 53 54 26', email_resp1: 'natha_vi@yahoo.fr', email_resp2: 'audolyt@hotmail.com', note: 'KIABI > DG', habitation: '5 Square de l\'Aviation', ville2: 'Marcq-en-Barœul', secu: '1 10 05 59 350 112 04' },
-            { lastname: 'BRONDERS', firstname: 'Djack', level: '2nde', class: 'Ensemble scolaire La Salle Lille', email: 'brondersdjack@gmail.com', phone_jeune: '06 03 21 40 64', phone_resp: '06 99 67 41 42', email_resp1: 'benjamin.bronders@kiabi.com', email_resp2: '', note: 'KIABI', habitation: '88 Rue Solférino', ville2: 'Lille', secu: '1 10 01 59 750 412 36' },
-            { lastname: 'IDRI', firstname: 'Aksel', level: '2nde', class: 'Lycée Chanzy', email: 'yaya-idri@outlook.fr', phone_jeune: '07 80 52 98 58', phone_resp: '06 07 15 01 40 / 06 82 88 30 14', email_resp1: 'yacine.idri@kiabi.com', email_resp2: 'abser08@hotmail.fr / noksel06@outlook.fr /', note: 'KIABI', habitation: '54 Rue de Douai', ville2: 'Lille', secu: '1 10 08 08 312 411 02' },
-            { lastname: 'MAHIEUX', firstname: 'Baptiste', level: '2nde', class: 'Lycée Polyvalent Ozanam (Général & Technologique)', email: 'baptistemahieux@icloud.com', phone_jeune: '07 83 59 56 51', phone_resp: '07 83 62 30 11 / 06 70 12 98 14', email_resp1: 'h.mahieux@kiabi.com', email_resp2: 'nutella59@free.fr', note: 'KIABI', habitation: '102 Avenue de Dunkerque', ville2: 'Lille', secu: '1 10 04 59 750 122 89' },
-            { lastname: 'MYLLE', firstname: 'Anaë', level: '2nde', class: 'LYCEE NOTRE DAME DES DUNES', email: 'mylle.anae123@gmail.com', phone_jeune: '07 55 62 24 03', phone_resp: '06 09 81 24 80 / 06 24 98 90 70', email_resp1: 'j.mylle@kiabi.com', email_resp2: 'mylle.sophie@gmail.com', note: 'KIABI', habitation: '16 Boulevard de la Mer', ville2: 'Dunkerque', secu: '2 10 06 59 124 311 04' },
-            { lastname: 'SACARD', firstname: 'Valentine', level: '2nde', class: 'Lycée Jean Perrin', email: 'famille@sacard.fr', phone_jeune: '07 50 53 88 90', phone_resp: '06 44 01 92 60 / 06 77 44 82 43', email_resp1: 'celine.faugouin@yahoo.fr', email_resp2: 'sebastien.sacard@gmail.com', note: 'KIABI', habitation: '8 Rue des Poilus', ville2: 'Lambersart', secu: '2 10 11 59 750 211 40' },
-            { lastname: 'GRARDEL', firstname: 'Prudence', level: '2nde', class: 'Lycée Saint Paul', email: 'prudence.grardel@gmail.com', phone_jeune: '06 09 52 21 47', phone_resp: '06 37 12 60 03 / 06 95 18 36 59', email_resp1: 'germain_adelaide@hotmail.fr', email_resp2: '', note: 'KIABI', habitation: '14 Rue Jacquard', ville2: 'Lille', secu: '2 10 03 59 750 112 04' },
-            { lastname: 'KOUCKE', firstname: 'Maxime', level: '2nde', class: 'Lycée des Flandres', email: 'kouckemaxime@gmail.com', phone_jeune: '06 34 99 87 50', phone_resp: '06 22 95 51 88 / 06 07 82 82 31', email_resp1: 'hubaujulie@hotmail.fr', email_resp2: 'kouckejeanchristophe@gmail.com', note: 'KIABI - HUBAP', habitation: '3 Place du Marché', ville2: 'Hazebrouck', secu: '1 10 07 59 009 112 05' },
-            { lastname: 'DEBRIFFRE', firstname: 'Louise', level: '2nde', class: 'Groupe Institut de Genech', email: 'l.debriffe@icloud.com', phone_jeune: '07 88 87 28 21', phone_resp: '06 82 57 14 31 / 06 81 59 30 58', email_resp1: 'magdebriffe@yahoo.fr', email_resp2: 'debriffea@yahoo.fr', note: 'KIABI', habitation: '90 Rue du Marais', ville2: 'Orchies', secu: '2 10 12 59 009 245 16' },
+            { lastname: 'AUDOLY', firstname: 'Esteban', level: '2nde', class: 'École Jeannine Manuel', email: 'e.audoly28@ejm.org', phone_jeune: '06 88 01 78 84', phone_resp: '06 95 05 25 92 / 06 49 53 54 26', email_resp1: 'natha_vi@yahoo.fr', email_resp2: 'audolyt@hotmail.com', note: 'KIABI > DG', habitation: '4 rue nouvelle', ville2: 'Mouvaux', secu: '1 10 10 99 216 290 71' },
+            { lastname: 'BRONDERS', firstname: 'Djack', level: '2nde', class: 'Ensemble scolaire La Salle Lille', email: 'brondersdjack@gmail.com', phone_jeune: '06 03 21 40 64', phone_resp: '06 99 67 41 42', email_resp1: 'benjamin.bronders@kiabi.com', email_resp2: '', note: 'KIABI', habitation: '46 rue du docteur lesme emmerin', ville2: 'Emmerin', secu: '1 09 09 59 350 641 14' },
+            { lastname: 'IDRI', firstname: 'Aksel', level: '2nde', class: 'Lycée Chanzy', email: 'yaya-idri@outlook.fr', phone_jeune: '07 80 52 98 58', phone_resp: '06 07 15 01 40 / 06 82 88 30 14', email_resp1: 'yacine.idri@kiabi.com', email_resp2: 'abser08@hotmail.fr', note: 'KIABI', habitation: '2 Ham. de Manicourt', ville2: 'Nouvion-sur-Meuse', secu: '1 10 01 08 105 371 07' },
+            { lastname: 'MAHIEUX', firstname: 'Baptiste', level: '2nde', class: 'Lycée Polyvalent Ozanam', email: 'baptistemahieux@icloud.com', phone_jeune: '07 83 59 56 51', phone_resp: '07 83 62 30 11 / 06 70 12 98 14', email_resp1: 'h.mahieux@kiabi.com', email_resp2: 'nutella59@free.fr', note: 'KIABI', habitation: '3 Imp. Hallez 36 Rue Carnot', ville2: 'Mons-en-Barœul', secu: '1 10 06 59 350 925 21' },
+            { lastname: 'MYLLE', firstname: 'Anaë', level: '2nde', class: 'LYCEE NOTRE DAME DES DUNES', email: 'mylle.anae123@gmail.com', phone_jeune: '07 55 62 24 03', phone_resp: '06 09 81 24 80 / 06 24 98 90 70', email_resp1: 'j.mylle@kiabi.com', email_resp2: 'mylle.sophie@gmail.com', note: 'KIABI', habitation: '450 Rue du Vert Vallon', ville2: 'Esquelbecq', secu: '2 10 03 59 750 390' },
+            { lastname: 'SACARD', firstname: 'Valentine', level: '2nde', class: 'Lycée Jean Perrin', email: 'famille@sacard.fr', phone_jeune: '07 50 53 88 90', phone_resp: '06 44 01 92 60 / 06 77 44 82 43', email_resp1: 'celine.faugouin@yahoo.fr', email_resp2: 'sebastien.sacard@gmail.com', note: 'KIABI', habitation: '54 Avenue de l\'Amiral Courbet', ville2: 'Lambersart', secu: '2 10 12 75 111 670 76' },
+            { lastname: 'GRARDEL', firstname: 'Prudence', level: '2nde', class: 'Lycée Saint Paul', email: 'prudence.grardel@gmail.com', phone_jeune: '06 09 52 21 47', phone_resp: '06 37 12 60 03 / 06 95 18 36 59', email_resp1: 'germain_adelaide@hotmail.fr', email_resp2: '', note: 'KIABI', habitation: '6 Rue Françoise de Beauffremez', ville2: 'Marcq-en-Barœul', secu: '2 10 05 59 350 743 40' },
+            { lastname: 'KOUCKE', firstname: 'Maxime', level: '2nde', class: 'Lycée des Flandres', email: 'kouckemaxime@gmail.com', phone_jeune: '06 34 99 87 50', phone_resp: '06 22 95 51 88 / 06 07 82 82 31', email_resp1: 'hubaujulie@hotmail.fr', email_resp2: 'kouckejeanchristophe@gmail.com', note: 'francois.hubau@kiabi.com', habitation: '324 Route Meulen Straete', ville2: 'Hardifort', secu: '1 10 09 59 750 288 55' },
+            { lastname: 'DEBRIFFRE', firstname: 'Louise', level: '2nde', class: 'Groupe Institut de Genech', email: 'l.debriffe@icloud.com', phone_jeune: '07 88 87 28 21', phone_resp: '06 82 57 14 31 / 06 81 59 30 58', email_resp1: 'magdebriffe@yahoo.fr', email_resp2: 'debriffea@yahoo.fr', note: 'KIABI', habitation: '1 Allee des Bleuets', ville2: 'Chéreng', secu: '2 10 09 59 350 726 24' },
             { lastname: 'LOGEZ', firstname: 'Noémie', level: '2nde', class: 'Lycée Marguerite de Flandre', email: 'noemielogez@gmail.com', phone_jeune: '06 50 20 94 5', phone_resp: '06 28 08 63 27 / 06 09 40 14 33', email_resp1: 'lulogez@gmail.com', email_resp2: 'jonathan.logez@gmail.com', note: '1élève1stage', habitation: '5 Rue Louis Aragon', ville2: 'Gondecourt', secu: '2 10 08 59 750 125 55' },
-            { lastname: 'MONTAGNE', firstname: 'Raphaël', level: '2nde', class: 'Lycée Faidherbe', email: 'monraphael2010@gmail.com', phone_jeune: '06 13 82 35 07', phone_resp: '06 84 15 40 13 / 06 74 50 69 17', email_resp1: 'msamsoen@lillemetropole.fr', email_resp2: 'julagne@msn.com', note: '1élève1stage', habitation: '5 Rue Abbé Jacques Toulemonde', ville2: 'Ronchin', secu: '1 10 09 59 750 252 91' },
-            { lastname: 'SERRET', firstname: 'Lili Rose', level: '2nde', class: 'Lycée Pierre de Coubertin', email: 'lilirose.serret@gmail.com', phone_jeune: '06 16 15 17 41', phone_resp: '07 67 51 15 98 / 06 24 70 27 71', email_resp1: 'aurelielatry@hotmail.fr', email_resp2: 'sebastien.serret@gmail.com', note: 'Colais IPS 82', habitation: '12 Boulevard Lafayette', ville2: 'Calais', secu: '2 10 01 62 112 455 08' },
-            { lastname: 'LAMBIN', firstname: 'Gabriel', level: '2nde', class: 'Lycée Raymond Queneau', email: 'gabriel.lambin@icloud.com', phone_jeune: '06 23 75 96 50', phone_resp: '06 13 05 51 48 / 06 26 16 00 59', email_resp1: 'karine_manisse@yahoo.fr', email_resp2: 'ch.lambin@yahoo.fr', note: '1élève1stage', habitation: '22 Rue de la Récréation', ville2: 'Villeneuve-d\'Ascq', secu: '1 10 02 59 009 363 79' },
-            { lastname: 'GELE PENO', firstname: 'Plamedi', level: '2nde', class: 'Lycée Baggio', email: 'plamedigelepenoo@gmail.com', phone_jeune: '07 84 69 88 32', phone_resp: '07 58 16 99 91 / 07 58 70 50 85', email_resp1: 'firogèle@yahoo.fr', email_resp2: 'ndalajosette@gmail.com', note: '1élève1stage', habitation: '45 Rue d\'Arras', ville2: 'Lille', secu: '1 10 03 59 750 211 47' }
+            { lastname: 'MONTAGNE', firstname: 'Raphaël', level: '2nde', class: 'Lycée Faidherbe', email: 'monraphael2010@gmail.com', phone_jeune: '06 13 82 35 07', phone_resp: '06 84 15 40 13 / 06 74 50 69 17', email_resp1: 'msamsoen@lillemetropole.fr', email_resp2: 'julagne@msn.com', note: '1élève1stage', habitation: '5 Rue Abbé Jacques Toulemonde', ville2: 'Ronchin', secu: '1100959750252 91' },
+            { lastname: 'SERRET', firstname: 'Lili Rose', level: '2nde', class: 'Lycée Pierre de Coubertin', email: 'lilirose.serret@gmail.com', phone_jeune: '06 16 15 17 41', phone_resp: '07 67 51 15 98 / 06 24 70 27 71', email_resp1: 'aurelielatry@hotmail.fr', email_resp2: 'sebastien.serret@gmail.com', note: 'Calais IPS 82', habitation: '23 Residence Catherine Fournier', ville2: 'Fréthun', secu: '2 10 03 62 160 354 02' },
+            { lastname: 'LAMBIN', firstname: 'Gabriel', level: '2nde', class: 'Lycée Raymond Queneau', email: 'gabriel.lambin@icloud.com', phone_jeune: '06 23 75 96 50', phone_resp: '06 13 05 51 48 / 06 24 16 00 59', email_resp1: 'karine_manisse@yahoo.fr', email_resp2: 'ch.lambin@yahoo.fr', note: '1élève1stage', habitation: '22 Rue de la Récréation', ville2: 'Villeneuve-d\'Ascq', secu: '1 10 02 59 009 363 79' },
+            { lastname: 'GELE PENO', firstname: 'Plamedi', level: '2nde', class: 'Lycée Baggio', email: 'plamedigelepenoo@gmail.com', phone_jeune: '07 84 69 88 32', phone_resp: '07 58 16 99 91 / 07 58 70 50 85', email_resp1: 'firogèle@yahoo.fr', email_resp2: 'ndalajosette@gmail.com', note: '1élève1stage', habitation: '10 Rue Parmentier', ville2: 'Lille', secu: '10079333910' }
         ];
 
-        function getStudentsDatabase() {
-            const saved = localStorage.getItem('custom_students');
+        // Charger le dictionnaire global structuré par années scolaires (1 à 7)
+        function getAcademicDatabase() {
+            const saved = localStorage.getItem('association_academic_db');
             if (!saved) {
-                localStorage.setItem('custom_students', JSON.stringify(defaultStudents));
-                return defaultStudents;
+                const initialDB = {
+                    year1: [], year2: [], year3: [], year4: [], year5: [],
+                    year6: defaultStudentsYear6,
+                    year7: []
+                };
+                localStorage.setItem('association_academic_db', JSON.stringify(initialDB));
+                return initialDB;
             }
             return JSON.parse(saved);
         }
 
+        // Basculer d'une année à l'autre (avec alerte anti-perte de saisie)
+        function switchAcademicYear(yearKey) {
+            if (!checkUnsavedChanges()) return;
+
+            currentYear = yearKey;
+            isFormDirty = false;
+
+            // Mettre à jour le look actif des boutons d'année
+            document.querySelectorAll('.year-selector-bar button').forEach(btn => {
+                btn.style.backgroundColor = "white";
+                btn.style.color = "var(--text-main)";
+            });
+            const activeBtn = document.getElementById('btn-' + yearKey);
+            if (activeBtn) {
+                activeBtn.style.backgroundColor = "var(--accent)";
+                activeBtn.style.color = "white";
+            }
+
+            // Changer les intitulés
+            const labels = {
+                year1: "Année 1 - 2020/21", year2: "Année 2 - 2021/22", year3: "Année 3 - 2022/23",
+                year4: "Année 4 - 2023/24", year5: "Année 5 - 2024/25", year6: "Année 6 - 2025/26",
+                year7: "Année 7 - 2026/27"
+            };
+            document.getElementById('table-title').innerText = "Registre : " + labels[yearKey];
+            
+            renderStudents();
+        }
+
         function renderStudents() {
-            const students = getStudentsDatabase();
+            const db = getAcademicDatabase();
+            const currentList = db[currentYear] || [];
+
             const tbody3eme = document.getElementById('tbody-3eme');
             const tbody2nde = document.getElementById('tbody-2nde');
             
@@ -367,34 +341,33 @@
 
             let count3eme = 0, count2nde = 0;
 
-            // Tri par nom
-            students.forEach((student, index) => {
+            currentList.sort((a, b) => a.lastname.localeCompare(b.lastname)).forEach((student, index) => {
                 const trMain = document.createElement('tr');
                 trMain.style.cursor = "pointer";
-                trMain.setAttribute('onclick', `toggleRow('row-details-${student.level}-${index}')`);
+                trMain.setAttribute('onclick', `toggleRow('row-details-${index}')`);
                 trMain.innerHTML = `
                     <td style="padding: 12px 15px;"><strong>${student.lastname.toUpperCase()}</strong> ${student.firstname}</td>
                     <td style="padding: 12px 15px;">${student.class}</td>
                     <td style="padding: 12px 15px;"><a href="mailto:${student.email}" onclick="event.stopPropagation();">${student.email || '—'}</a></td>
-                    <td style="padding: 12px 15px;"><span class="note-tag">${student.note || 'Enregistré'}</span></td>
+                    <td style="padding: 12px 15px;"><span class="note-tag">${student.note || '—'}</span></td>
                     <td style="padding: 12px 15px; text-align: center;">
-                        <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 0.8rem;" onclick="event.stopPropagation(); loadStudentToForm(${index})">✏️ Modifier</button>
+                        <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 0.8rem;" onclick="event.stopPropagation(); loadStudentToForm(${index})">✏️ Editer</button>
                     </td>
                 `;
 
                 const trDetails = document.createElement('tr');
-                trDetails.id = `row-details-${student.level}-${index}`;
+                trDetails.id = `row-details-${index}`;
                 trDetails.className = 'details-row';
                 trDetails.style.display = 'none';
                 trDetails.innerHTML = `
                     <td colspan="5" style="padding: 0;">
                         <div class="details-grid">
                             <div class="details-item"><strong>Téléphone Jeune</strong> ${student.phone_jeune || '—'}</div>
-                            <div class="details-item"><strong>Téléphone Responsables Légaux</strong> ${student.phone_resp || '—'}</div>
-                            <div class="details-item"><strong>Mail Responsable Légaux</strong> ${student.email_resp1 || '—'}</div>
-                            <div class="details-item"><strong>Mail Responsable Légal 2</strong> ${student.email_resp2 || '—'}</div>
+                            <div class="details-item"><strong>Téléphone Responsables</strong> ${student.phone_resp || '—'}</div>
+                            <div class="details-item"><strong>Mail Responsable</strong> ${student.email_resp1 || '—'}</div>
+                            <div class="details-item"><strong>Mail Responsable 2</strong> ${student.email_resp2 || '—'}</div>
                             <div class="details-item"><strong>Numéro de Sécurité Sociale</strong> ${student.secu || '—'}</div>
-                            <div class="details-item" style="grid-column: span 2;"><strong>Adresse Personnelle Élève (Habitation)</strong> ${student.habitation || '—'} ${student.ville2 || ''}</div>
+                            <div class="details-item" style="grid-column: span 2;"><strong>Adresse de résidence (Habitation)</strong> ${student.habitation || '—'} — ${student.ville2 || ''}</div>
                         </div>
                     </td>
                 `;
@@ -410,8 +383,8 @@
                 }
             });
 
-            if (count3eme === 0) tbody3eme.innerHTML = '<tr><td colspan="5" class="empty-message" style="padding:15px;">Aucun élève de 3ème.</td></tr>';
-            if (count2nde === 0) tbody2nde.innerHTML = '<tr><td colspan="5" class="empty-message" style="padding:15px;">Aucun élève de Seconde.</td></tr>';
+            if (count3eme === 0) tbody3eme.innerHTML = '<tr><td colspan="5" class="empty-message" style="padding:15px;">Aucun étudiant enregistré sur cette cohorte.</td></tr>';
+            if (count2nde === 0) tbody2nde.innerHTML = '<tr><td colspan="5" class="empty-message" style="padding:15px;">Aucun étudiant enregistré sur cette cohorte.</td></tr>';
         }
 
         function toggleRow(id) {
@@ -419,10 +392,9 @@
             el.style.display = (el.style.display === 'none') ? 'table-row' : 'none';
         }
 
-        // CHARGER LA FICHE DE L'ELEVE DANS LE FORMULAIRE DU HAUT POUR EDITION
         function loadStudentToForm(index) {
-            const students = getStudentsDatabase();
-            const student = students[index];
+            const db = getAcademicDatabase();
+            const student = db[currentYear][index];
 
             document.getElementById('edit-index').value = index;
             document.getElementById('student-lastname').value = student.lastname;
@@ -439,11 +411,10 @@
             document.getElementById('student-ville2').value = student.ville2 || '';
             document.getElementById('student-note').value = student.note;
 
-            document.getElementById('form-title').innerText = "⚠️ MODIFICATION DE LA FICHE ÉLÈVE";
+            document.getElementById('form-title').innerText = "⚠️ MODIFICATION DE FICHE EN COURS";
             document.getElementById('btn-cancel-edit').style.display = "inline-flex";
-            
-            // Scroll fluide vers le formulaire
             document.getElementById('add-student-form').scrollIntoView({ behavior: 'smooth' });
+            isFormDirty = true;
         }
 
         function cancelEdit() {
@@ -451,12 +422,13 @@
             document.getElementById('edit-index').value = "";
             document.getElementById('form-title').innerText = "Enregistrement d'une nouvelle fiche élève";
             document.getElementById('btn-cancel-edit').style.display = "none";
+            isFormDirty = false;
         }
 
         function handleStudentSubmit(event) {
             event.preventDefault();
 
-            const students = getStudentsDatabase();
+            const db = getAcademicDatabase();
             const editIndex = document.getElementById('edit-index').value;
 
             const studentData = {
@@ -476,21 +448,21 @@
             };
 
             if (editIndex !== "") {
-                // Modification de l'existant
-                students[editIndex] = studentData;
-                alert("La fiche de l'élève a été correctement mise à jour !");
+                db[currentYear][editIndex] = studentData;
             } else {
-                // Nouvel ajout
-                students.push(studentData);
-                alert("Nouvel élève inscrit avec sa fiche complète !");
+                db[currentYear].push(studentData);
             }
 
-            localStorage.setItem('custom_students', JSON.stringify(students));
+            localStorage.setItem('association_academic_db', JSON.stringify(db));
             cancelEdit();
             renderStudents();
+            alert("Données enregistrées localement pour cette année.");
         }
 
-        window.onload = renderStudents;
+        // Chargement initial sur la cohorte 2025/2026
+        window.onload = function() {
+            switchAcademicYear('year6');
+        };
     </script>
 </body>
 </html>
