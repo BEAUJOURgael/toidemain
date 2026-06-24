@@ -6,6 +6,106 @@
     <title>Élèves - Association</title>
     <link rel="stylesheet" href="style.css">
     <style>
+        /* SÉCURITÉ GLOBAAL POUR EMPECHER LE SQUASH DE LA BARRE LATÉRALE */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            min-height: 100vh;
+            background-color: #f1f5f9;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .dashboard-container {
+            display: flex;
+            width: 100%;
+        }
+
+        aside {
+            width: 260px;
+            min-width: 260px;
+            background-color: #0f172a;
+            color: #fff;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        aside .brand {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #38bdf8;
+        }
+
+        aside .menu-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #94a3b8;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        aside nav a {
+            display: block;
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 10px 12px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        aside nav a:hover, aside nav a.active {
+            background-color: #1e293b;
+            color: #fff;
+        }
+
+        aside nav a.active {
+            border-left: 4px solid #3b82f6;
+        }
+
+        main {
+            flex-grow: 1;
+            padding: 40px;
+            box-sizing: border-box;
+            background-color: #f8fafc;
+            overflow-y: auto;
+        }
+
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 20px;
+        }
+
+        .header-actions h1 {
+            margin: 0;
+            font-size: 1.75rem;
+            color: #0f172a;
+        }
+
+        /* BOUTON RETOUR CORRIGÉ VISIBLE */
+        .btn-back {
+            background-color: #ffffff;
+            color: #334155;
+            padding: 10px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 1px solid #cbd5e1;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+        }
+
+        .btn-back:hover {
+            background-color: #f8fafc;
+            border-color: #94a3b8;
+        }
+
         .level-section {
             margin-bottom: 40px;
         }
@@ -23,12 +123,11 @@
         .badge-2nde { background: #ecfdf5; color: #059669; }
 
         .empty-message {
-            color: var(--text-muted);
+            color: #64748b;
             font-style: italic;
             padding: 15px 0;
         }
 
-        /* Organisation de l'affichage complet de toutes les données de la feuille Excel */
         .details-row {
             background-color: #f8fafc;
             font-size: 0.85rem;
@@ -43,7 +142,7 @@
         }
 
         .details-item strong {
-            color: var(--text-main);
+            color: #0f172a;
             display: block;
             margin-bottom: 2px;
             font-size: 0.75rem;
@@ -53,7 +152,7 @@
 
         .note-tag {
             background: #eff6ff;
-            color: var(--accent);
+            color: #2563eb;
             padding: 4px 8px;
             border-radius: 4px;
             font-weight: 600;
@@ -62,144 +161,149 @@
 </head>
 <body>
 
-    <!-- BARRE LATÉRALE DE NAVIGATION -->
-    <aside>
-        <div class="brand">Corporate Portal</div>
-        <p class="menu-label">Navigation</p>
-        <nav>
-            <a href="index.html">Tableau de bord</a>
-            <a href="communication.html">Communication</a>
-            <a href="entreprises.html">Relations Entreprises</a>
-            <a href="eleves.html" class="active">Base Élèves</a>
-            <a href="satisfaction.html">Audits & Satisfaction</a>
-        </nav>
-    </aside>
+    <div class="dashboard-container">
+        <!-- BARRE LATÉRALE DE NAVIGATION CONSOLIDÉE -->
+        <aside>
+            <div class="brand">Corporate Portal</div>
+            <p class="menu-label">Navigation</p>
+            <nav>
+                <a href="index.html">Tableau de bord</a>
+                <a href="communication.html">Communication</a>
+                <a href="entreprises.html">Relations Entreprises</a>
+                <a href="eleves.html" class="active">Base Élèves</a>
+                <a href="satisfaction.html">Audits & Satisfaction</a>
+            </nav>
+        </aside>
 
-    <!-- CONTENU PRINCIPAL -->
-    <main>
-        <div class="header-actions">
-            <div>
-                <h1>Base de données Élèves</h1>
-                <p style="color: var(--text-muted); margin-top: 5px;">Registre complet — Année Scolaire 2025/2026</p>
-            </div>
-        </div>
-
-        <!-- FORMULAIRE D'ENREGISTREMENT AVEC TOUTES LES INFOS -->
-        <div class="panel">
-            <div class="panel-header">
-                <h2>Enregistrement d'une nouvelle fiche élève</h2>
-                <p>Ajouter un élève manuellement en remplissant l'ensemble des coordonnées et notes de suivi.</p>
-            </div>
-            <form id="add-student-form" onsubmit="handleStudentSubmit(event)">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="student-lastname">Nom</label>
-                        <input type="text" id="student-lastname" placeholder="Ex: MARTIN" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="student-firstname">Prénom</label>
-                        <input type="text" id="student-firstname" placeholder="Ex: Lucas" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="student-level">Niveau Scolaire</label>
-                        <select id="student-level" required>
-                            <option value="3eme">Troisième (3ème)</option>
-                            <option value="2nde" selected>Seconde (2nde)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="student-class">Établissement / Classe</label>
-                        <input type="text" id="student-class" placeholder="Ex: Lycée Louis Pasteur" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="student-email">E-mail de l'élève</label>
-                        <input type="email" id="student-email" placeholder="l.martin@gmail.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="student-phone">Téléphone jeune</label>
-                        <input type="text" id="student-phone" placeholder="06 00 00 00 00">
-                    </div>
-                    <div class="form-group">
-                        <label for="student-resp-phone">Téléphone responsables légaux</label>
-                        <input type="text" id="student-resp-phone" placeholder="06 00 00 00 00">
-                    </div>
-                    <div class="form-group">
-                        <label for="student-resp-mail1">Mail responsable légaux</label>
-                        <input type="email" id="student-resp-mail1" placeholder="parent1@mail.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="student-resp-mail2">MAil responsable légal 2</label>
-                        <input type="email" id="student-resp-mail2" placeholder="parent2@mail.com">
-                    </div>
-                    <div class="form-group" style="grid-column: span 2;">
-                        <label for="student-note">Note / Suivi</label>
-                        <input type="text" id="student-note" placeholder="Note ou observations de dossier">
-                    </div>
-                </div>
-                <div style="display: flex; justify-content: flex-end; margin-top: 15px;">
-                    <button type="submit" class="btn btn-primary">Inscrire l'élève avec sa fiche complète</button>
-                </div>
-            </form>
-        </div>
-
-        <!-- SECTION : ÉLÈVES DE SECONDE -->
-        <div class="panel level-section">
-            <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center;">
+        <!-- CONTENU PRINCIPAL -->
+        <main>
+            <div class="header-actions">
                 <div>
-                    <h2>Élèves de Seconde (2nde) — Cohorte Complète</h2>
-                    <p>Cliquez sur n'importe quelle ligne pour déplier/replier l'intégralité des informations, téléphones et contacts responsables.</p>
+                    <h1>Base de données Élèves</h1>
+                    <p style="color: #64748b; margin: 5px 0 0 0;">Registre complet et fiches individuelles — Année Scolaire 2025/2026</p>
                 </div>
-                <span class="level-badge badge-2nde">Lycée</span>
+                <!-- BOUTON RETOUR EN HAUT À DROITE DE L'ÉCRAN -->
+                <a href="index.html" class="btn-back">
+                    ← Retour à l'accueil
+                </a>
             </div>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nom Prénom</th>
-                            <th>Établissement d'origine</th>
-                            <th>E-mail Jeune</th>
-                            <th>Note / Catégorie</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbody-2nde">
-                        <!-- Rempli par JS -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
 
-        <!-- SECTION : ÉLÈVES DE TROISIÈME -->
-        <div class="panel level-section">
-            <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                    <h2>Élèves de Troisième (3ème)</h2>
-                    <p>Suivi des inscriptions pour les collégiens.</p>
+            <!-- FORMULAIRE D'ENREGISTREMENT -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>Enregistrement d'une nouvelle fiche élève</h2>
+                    <p>Ajouter un élève manuellement en remplissant l'ensemble des coordonnées et notes de suivi.</p>
                 </div>
-                <span class="level-badge badge-3eme">Collège</span>
+                <form id="add-student-form" onsubmit="handleStudentSubmit(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="student-lastname">Nom</label>
+                            <input type="text" id="student-lastname" placeholder="Ex: MARTIN" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="student-firstname">Prénom</label>
+                            <input type="text" id="student-firstname" placeholder="Ex: Lucas" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="student-level">Niveau Scolaire</label>
+                            <select id="student-level" required>
+                                <option value="3eme">Troisième (3ème)</option>
+                                <option value="2nde" selected>Seconde (2nde)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="student-class">Établissement / Classe</label>
+                            <input type="text" id="student-class" placeholder="Ex: Lycée Louis Pasteur" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="student-email">E-mail de l'élève</label>
+                            <input type="email" id="student-email" placeholder="l.martin@gmail.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="student-phone">Téléphone jeune</label>
+                            <input type="text" id="student-phone" placeholder="06 00 00 00 00">
+                        </div>
+                        <div class="form-group">
+                            <label for="student-resp-phone">Téléphone responsables légaux</label>
+                            <input type="text" id="student-resp-phone" placeholder="06 00 00 00 00">
+                        </div>
+                        <div class="form-group">
+                            <label for="student-resp-mail1">Mail responsable légaux</label>
+                            <input type="email" id="student-resp-mail1" placeholder="parent1@mail.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="student-resp-mail2">MAil responsable légal 2</label>
+                            <input type="email" id="student-resp-mail2" placeholder="parent2@mail.com">
+                        </div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label for="student-note">Note / Suivi</label>
+                            <input type="text" id="student-note" placeholder="Note ou observations de dossier">
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; margin-top: 15px;">
+                        <button type="submit" class="btn btn-primary" style="background-color: #2563eb; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">Inscrire l'élève avec sa fiche complète</button>
+                    </div>
+                </form>
             </div>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nom Prénom</th>
-                            <th>Établissement d'origine</th>
-                            <th>E-mail Jeune</th>
-                            <th>Note / Catégorie</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbody-3eme">
-                        <!-- Rempli par JS -->
-                    </tbody>
-                </table>
+
+            <!-- SECTION : ÉLÈVES DE SECONDE -->
+            <div class="panel level-section">
+                <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <div>
+                        <h2>Élèves de Seconde (2nde) — Cohorte Complète</h2>
+                        <p style="margin: 5px 0 0 0; color: #64748b; font-size: 0.9rem;">Cliquez sur une ligne pour afficher les coordonnées complètes et contacts parents.</p>
+                    </div>
+                    <span class="level-badge badge-2nde">Lycée</span>
+                </div>
+                <div class="table-responsive">
+                    <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <thead style="background-color: #f1f5f9; text-align: left;">
+                            <tr>
+                                <th style="padding: 12px 15px;">Nom Prénom</th>
+                                <th style="padding: 12px 15px;">Établissement d'origine</th>
+                                <th style="padding: 12px 15px;">E-mail Jeune</th>
+                                <th style="padding: 12px 15px;">Note / Catégorie</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-2nde">
+                            <!-- Rempli par le script -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-    </main>
+
+            <!-- SECTION : ÉLÈVES DE TROISIÈME -->
+            <div class="panel level-section">
+                <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <div>
+                        <h2>Élèves de Troisième (3ème)</h2>
+                        <p style="margin: 5px 0 0 0; color: #64748b; font-size: 0.9rem;">Suivi des inscriptions pour les collégiens.</p>
+                    </div>
+                    <span class="level-badge badge-3eme">Collège</span>
+                </div>
+                <div class="table-responsive">
+                    <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <thead style="background-color: #f1f5f9; text-align: left;">
+                            <tr>
+                                <th style="padding: 12px 15px;">Nom Prénom</th>
+                                <th style="padding: 12px 15px;">Établissement d'origine</th>
+                                <th style="padding: 12px 15px;">E-mail Jeune</th>
+                                <th style="padding: 12px 15px;">Note / Catégorie</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-3eme">
+                            <!-- Rempli par le script -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
 
     <script>
-        // L'intégralité brute absolue des colonnes extraites de la feuille "Listing inscriptions Kiabi .xlsx"
         const defaultStudents = [
             { lastname: 'MAZOYER', firstname: 'Maëlle', level: '2nde', class: 'Lycée Privé Sainte-Odile', email: 'mazoyermaelle@gmail.com', phone_jeune: '06 33 24 65 86', phone_resp: '06 07 02 61 16 / 06 81 35 54 06 / 06 69 59 06 25', email_resp1: 'stephanie.gay@kiabi.com', email_resp2: 'fmazoyer@elise.6m.fr', note: 'KIABI' },
-            { lastname: 'MATHIEU', firstname: 'Léo', level: '2nde', class: 'Ensemble Scolaire Saint Adrien LaSalle - site Annappes', email: 'leo.mathieu0212@gmail.com', phone_jeune: '07 87 10 35 74', phone_resp: '06 76 23 47 35 / 06 85 80 17 42', email_resp1: 'j.mathieu@kiabi.com', email_resp2: 'melaniemagois@yahoo.fr', note: 'KIABI' },
+            { lastname: 'MATHIEU', firstname: 'Léo', level: '2nde', class: 'Ensemble Scolaire Saint Adrien LaSalle - site Annappes', email: 'leo.mathieu0212@gmail.com', phone_jeune: '07 86 10 35 74', phone_resp: '06 76 23 47 35 / 06 85 80 17 42', email_resp1: 'j.mathieu@kiabi.com', email_resp2: 'melaniemagois@yahoo.fr', note: 'KIABI' },
             { lastname: 'FREMAUX', firstname: 'Anaïs', level: '2nde', class: 'Lycée des Flandres', email: 'anaisfrx@yahoo.com', phone_jeune: '06 68 79 19 46', phone_resp: '06 66 65 98 48 / 06 50 10 21 99', email_resp1: 'isafontaine8@yahoo.fr', email_resp2: 'fremauxseb@yahoo.fr', note: 'n.verstaen@kiabi.com (moi)' },
             { lastname: 'BÉHIN', firstname: 'Léon', level: '2nde', class: 'Groupe Institut de Genech', email: 'leon.behin@yahoo.com', phone_jeune: '07 54 39 92 72', phone_resp: '07 44 42 07 08 / 06 22 14 66 82', email_resp1: 'jeremy.chatelain@kiabi.com', email_resp2: 'christophe.behin@yahoo.fr / amandinecorbeille@yahoo.fr', note: 'KIABI' },
             { lastname: 'SAVAZY', firstname: 'Eva', level: '2nde', class: 'Ensemble scolaire La Salle Lille', email: 'eva.savary2010@icloud.com', phone_jeune: '06 07 96 38 51', phone_resp: '06 18 67 40 90 / 06 74 60 27 06 / 06 69 96 08 92 (VIOLAINE MARTELLY KIABI)', email_resp1: 'manuelafaisca@hotmail.com', email_resp2: 'david.savary@hotmail.fr', note: 'KIABI' },
@@ -219,23 +323,23 @@
             { lastname: 'UNG', firstname: 'Vann', level: '2nde', class: 'Lycée Raymond Queneau', email: 'vann.ung.n1@gmail.com', phone_jeune: '07 71 27 74 12', phone_resp: '06 11 30 29 06 / 06 22 67 26 64', email_resp1: 'k.ung@gmail.com', email_resp2: 'oui.kim.vanny@gmail.com', note: '1élève1stage' },
             { lastname: 'OUAAMAR', firstname: 'Chaïda', level: '2nde', class: 'Lycée Baggio', email: 'chdd.omr59@gmail.com', phone_jeune: '07 82 28 18 67', phone_resp: '', email_resp1: '', email_resp2: '', note: '' },
             { lastname: 'VERMERSCH', firstname: 'Romane', level: '2nde', class: 'Lycée Notre Dame de la Paix', email: 'romanevermersch@gmail.com', phone_jeune: '06 73 88 78 49', phone_resp: '06 82 14 68 90 / 06 10 89 17 79', email_resp1: 'dehaypatricia@gmail.com', email_resp2: 'fravermersch@gmail.com', note: 'KIABI' },
-            { lastname: 'AUDOLY', firstname: 'Esteban', level: '2nde', class: 'École Jeannine Manuel', email: 'e.audoly28@ejm.org', phone_jeune: '06 88 01 78 84', phone_resp: '06 95 05 25 92 / 06 49 53 54 26', email_resp1: 'natha_vi@yahoo.fr', email_resp2: 'audolyt@hotmail.com', note: 'KIABI > fils d\'amis de Patrick STASSI (DG) > contacter le stagiaire en direct' },
+            { lastname: 'AUDOLY', firstname: 'Esteban', level: '2nde', class: 'École Jeannine Manuel', email: 'e.audoly28@ejm.org', phone_jeune: '06 88 01 78 84', phone_resp: '06 95 05 25 92 / 06 49 53 54 26', email_resp1: 'natha_vi@yahoo.fr', email_resp2: 'audolyt@hotmail.com', note: 'fils d\'amis de Patrick STASSI (DG)' },
             { lastname: 'BRONDERS', firstname: 'Djack', level: '2nde', class: 'Ensemble scolaire La Salle Lille', email: 'brondersdjack@gmail.com', phone_jeune: '06 03 21 40 64', phone_resp: '06 99 67 41 42', email_resp1: 'benjamin.bronders@kiabi.com', email_resp2: '', note: 'KIABI' },
-            { lastname: 'IDRI', firstname: 'Aksel', level: '2nde', class: 'Lycée Chanzy', email: 'yaya-idri@outlook.fr', phone_jeune: '07 80 52 98 58', phone_resp: '06 07 15 01 40 / 06 82 88 30 14', email_resp1: 'yacine.idri@kiabi.com', email_resp2: 'abser08@hotmail.fr / noksel06@outlook.fr /', note: 'KIABI' },
-            { lastname: 'MAHIEUX', firstname: 'Baptiste', level: '2nde', class: 'Lycée Polyvalent Ozanam (Général & Technologique)', email: 'baptistemahieux@icloud.com', phone_jeune: '07 83 59 56 51', phone_resp: '07 83 62 30 11 / 06 70 12 98 14', email_resp1: 'h.mahieux@kiabi.com', email_resp2: 'nutella59@free.fr', note: 'KIABI' },
+            { lastname: 'IDRI', firstname: 'Aksel', level: '2nde', class: 'Lycée Chanzy', email: 'yaya-idri@outlook.fr', phone_jeune: '07 80 52 98 58', phone_resp: '06 07 15 01 40 / 06 82 88 30 14', email_resp1: 'yacine.idri@kiabi.com', email_resp2: 'abser08@hotmail.fr', note: 'KIABI' },
+            { lastname: 'MAHIEUX', firstname: 'Baptiste', level: '2nde', class: 'Lycée Polyvalent Ozanam', email: 'baptistemahieux@icloud.com', phone_jeune: '07 83 59 56 51', phone_resp: '07 83 62 30 11 / 06 70 12 98 14', email_resp1: 'h.mahieux@kiabi.com', email_resp2: 'nutella59@free.fr', note: 'KIABI' },
             { lastname: 'MYLLE', firstname: 'Anaë', level: '2nde', class: 'LYCEE NOTRE DAME DES DUNES', email: 'mylle.anae123@gmail.com', phone_jeune: '07 55 62 24 03', phone_resp: '06 09 81 24 80 / 06 24 98 90 70', email_resp1: 'j.mylle@kiabi.com', email_resp2: 'mylle.sophie@gmail.com', note: 'KIABI' },
             { lastname: 'SACARD', firstname: 'Valentine', level: '2nde', class: 'Lycée Jean Perrin', email: 'famille@sacard.fr', phone_jeune: '07 50 53 88 90', phone_resp: '06 44 01 92 60 / 06 77 44 82 43', email_resp1: 'celine.faugouin@yahoo.fr', email_resp2: 'sebastien.sacard@gmail.com', note: 'KIABI' },
             { lastname: 'GRARDEL', firstname: 'Prudence', level: '2nde', class: 'Lycée Saint Paul', email: 'prudence.grardel@gmail.com', phone_jeune: '06 09 52 21 47', phone_resp: '06 37 12 60 03 / 06 95 18 36 59', email_resp1: 'germain_adelaide@hotmail.fr', email_resp2: '', note: 'KIABI' },
-            { lastname: 'KOUCKE', firstname: 'Maxime', level: '2nde', class: 'Lycée des Flandres', email: 'kouckemaxime@gmail.com', phone_jeune: '06 34 99 87 50', phone_resp: '06 22 95 51 88 / 06 07 82 82 31', email_resp1: 'hubaujulie@hotmail.fr', email_resp2: 'kouckejeanchristophe@gmail.com', note: 'KIABI - 07 81 42 62 96 - francois.hubau@kiabi.com' },
+            { lastname: 'KOUCKE', firstname: 'Maxime', level: '2nde', class: 'Lycée des Flandres', email: 'kouckemaxime@gmail.com', phone_jeune: '06 34 99 87 50', phone_resp: '06 22 95 51 88 / 06 07 82 82 31', email_resp1: 'hubaujulie@hotmail.fr', email_resp2: 'kouckejeanchristophe@gmail.com', note: 'francois.hubau@kiabi.com' },
             { lastname: 'DEBRIFFRE', firstname: 'Louise', level: '2nde', class: 'Groupe Institut de Genech', email: 'l.debriffe@icloud.com', phone_jeune: '07 88 87 28 21', phone_resp: '06 82 57 14 31 / 06 81 59 30 58', email_resp1: 'magdebriffe@yahoo.fr', email_resp2: 'debriffea@yahoo.fr', note: 'KIABI' },
             { lastname: 'TRUPKIEWICZ—BRAY', firstname: 'Auxanne', level: '2nde', class: 'Ensemble scolaire La Salle Lille', email: 'aux.tpkzb@icloud.com', phone_jeune: '07 87 81 85 83', phone_resp: '06 68 64 93 14 / 06 85 25 57 97', email_resp1: 'emilie_trup@hotmail.com', email_resp2: 'jonat_br@hotmail.fr', note: 'KIABI' },
             { lastname: 'CRÉPIN', firstname: 'Leina', level: '2nde', class: 'Ensemble scolaire La Salle Lille', email: 'leina59810@gmail.com', phone_jeune: '07 69 52 39 52', phone_resp: '06 76 70 23 44 /06 03 50 25 38', email_resp1: 'maxlillesud@hotmail.fr', email_resp2: '', note: 'KIABI' },
             { lastname: 'LORENZO-DOMINGO', firstname: 'Abygaëlle', level: '2nde', class: 'Lycée Louis Pasteur', email: 'lorabygaelle@gmail.com', phone_jeune: '06 28 71 18 22', phone_resp: '06 81 37 83 56 / 06 35 59 40 16', email_resp1: 'moulinaurore@yahoo.fr', email_resp2: 'lordamien81@yahoo.com', note: '1élève1stage' },
-            { lastname: 'AFHIM', firstname: 'Nahil', level: '2nde', class: 'Lycée Jean-Prouvé', email: 'nahil281210@gmail.com', phone_jeune: '06 51 93 34 79', phone_resp: '07 83 94 52 31', email_resp1: 'Salihaafhim@gmail.com', email_resp2: '', note: '' },
-            { lastname: 'DUSSART', firstname: 'Eloïse', level: '2nde', class: 'Notre-Dame-de-La-Providence Catholic High School', email: 'eloisedussart@icloud.com', phone_jeune: '06 95 68 73 04', phone_resp: '06 71 96 37 15 / 06 29 51 68 06', email_resp1: 'dqsoph@yahoo.fr', email_resp2: 'damiendussart@yahoo.fr', note: '1élève1stage' },
+            { lastname: 'AFHIM', firstname: 'Nahil', level: '2nde', class: 'Lycée Jean-Prouvé', email: 'nahil281210@gmail.com', phone_jeune: '06 51 93 34 79', phone_resp: '07 83 94 52 31', email_resp1: 'Salihaafhim@gmail.com', email_resp2: '', note: 'En attente' },
+            { lastname: 'DUSSART', firstname: 'Eloïse', level: '2nde', class: 'Notre-Dame-de-La-Providence Catholic HS', email: 'eloisedussart@icloud.com', phone_jeune: '06 95 68 73 04', phone_resp: '06 71 96 37 15 / 06 29 51 68 06', email_resp1: 'dqsoph@yahoo.fr', email_resp2: 'damiendussart@yahoo.fr', note: '1élève1stage' },
             { lastname: 'LOGEZ', firstname: 'Noémie', level: '2nde', class: 'Lycée Marguerite de Flandre', email: 'noemielogez@gmail.com', phone_jeune: '06 50 20 94 5', phone_resp: '06 28 08 63 27 / 06 09 40 14 33', email_resp1: 'lulogez@gmail.com', email_resp2: 'jonathan.logez@gmail.com', note: '1élève1stage' },
             { lastname: 'MONTAGNE', firstname: 'Raphaël', level: '2nde', class: 'Lycée Faidherbe', email: 'monraphael2010@gmail.com', phone_jeune: '06 13 82 35 07', phone_resp: '06 84 15 40 13 / 06 74 50 69 17', email_resp1: 'msamsoen@lillemetropole.fr', email_resp2: 'julagne@msn.com', note: '1élève1stage' },
-            { lastname: 'SERRET', firstname: 'Lili Rose', level: '2nde', class: 'Lycée Pierre de Coubertin', email: 'lilirose.serret@gmail.com', phone_jeune: '06 16 15 17 41', phone_resp: '07 67 51 15 98 / 06 24 70 27 71', email_resp1: 'aurelielatry@hotmail.fr', email_resp2: 'sebastien.serret@gmail.com', note: 'connaissance de collab/ calais IPS 82' },
+            { lastname: 'SERRET', firstname: 'Lili Rose', level: '2nde', class: 'Lycée Pierre de Coubertin', email: 'lilirose.serret@gmail.com', phone_jeune: '06 16 15 17 41', phone_resp: '07 67 51 15 98 / 06 24 70 27 71', email_resp1: 'aurelielatry@hotmail.fr', email_resp2: 'sebastien.serret@gmail.com', note: 'Calais - Connaissance collab' },
             { lastname: 'LAMBIN', firstname: 'Gabriel', level: '2nde', class: 'Lycée Raymond Queneau', email: 'gabriel.lambin@icloud.com', phone_jeune: '06 23 75 96 50', phone_resp: '06 13 05 51 48 / 06 26 16 00 59', email_resp1: 'karine_manisse@yahoo.fr', email_resp2: 'ch.lambin@yahoo.fr', note: '1élève1stage' },
             { lastname: 'GELE PENO', firstname: 'Plamedi', level: '2nde', class: 'Lycée Baggio', email: 'plamedigelepenoo@gmail.com', phone_jeune: '07 84 69 88 32', phone_resp: '07 58 16 99 91 / 07 58 70 50 85', email_resp1: 'firogèle@yahoo.fr', email_resp2: 'ndalajosette@gmail.com', note: '1élève1stage' }
         ];
@@ -259,27 +363,23 @@
 
             let count3eme = 0, count2nde = 0;
 
-            // Classement alphabétique
             students.sort((a, b) => a.lastname.localeCompare(b.lastname)).forEach((student, index) => {
-                
-                // Ligne principale de la table
                 const trMain = document.createElement('tr');
                 trMain.style.cursor = "pointer";
                 trMain.setAttribute('onclick', `toggleRow('row-details-${student.level}-${index}')`);
                 trMain.innerHTML = `
-                    <td><strong>${student.lastname.toUpperCase()}</strong> ${student.firstname}</td>
-                    <td>${student.class}</td>
-                    <td><a href="mailto:${student.email}" onclick="event.stopPropagation();">${student.email || '—'}</a></td>
-                    <td><span class="note-tag">${student.note || 'Axe Nord'}</span></td>
+                    <td style="padding: 12px 15px;"><strong>${student.lastname.toUpperCase()}</strong> ${student.firstname}</td>
+                    <td style="padding: 12px 15px;">${student.class}</td>
+                    <td style="padding: 12px 15px;"><a href="mailto:${student.email}" onclick="event.stopPropagation();">${student.email || '—'}</a></td>
+                    <td style="padding: 12px 15px;"><span class="note-tag">${student.note || 'Axe Nord'}</span></td>
                 `;
 
-                // Ligne pliable contenant TOUTES les coordonnées requises de l'Excel
                 const trDetails = document.createElement('tr');
                 trDetails.id = `row-details-${student.level}-${index}`;
                 trDetails.className = 'details-row';
-                trDetails.style.display = 'none'; // Fermé par défaut
+                trDetails.style.display = 'none';
                 trDetails.innerHTML = `
-                    <td colspan="4">
+                    <td colspan="4" style="padding: 0;">
                         <div class="details-grid">
                             <div class="details-item"><strong>Téléphone Jeune</strong> ${student.phone_jeune || '—'}</div>
                             <div class="details-item"><strong>Téléphone Responsables Légaux</strong> ${student.phone_resp || '—'}</div>
@@ -301,8 +401,8 @@
                 }
             });
 
-            if (count3eme === 0) tbody3eme.innerHTML = '<tr><td colspan="4" class="empty-message">Aucun élève.</td></tr>';
-            if (count2nde === 0) tbody2nde.innerHTML = '<tr><td colspan="4" class="empty-message">Aucun élève.</td></tr>';
+            if (count3eme === 0) tbody3eme.innerHTML = '<tr><td colspan="4" class="empty-message" style="padding:15px;">Aucun élève.</td></tr>';
+            if (count2nde === 0) tbody2nde.innerHTML = '<tr><td colspan="4" class="empty-message" style="padding:15px;">Aucun élève.</td></tr>';
         }
 
         function toggleRow(id) {
