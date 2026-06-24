@@ -5,8 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Élèves - Association</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Styles spécifiques pour l'organisation de la base élèves */
+        .level-section {
+            margin-bottom: 40px;
+        }
+        
+        .level-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            max-width: 250px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .badge-3eme {
+            background: #fef3c7;
+            color: #d97706;
+        }
+        
+        .badge-2nde {
+            background: #ecfdf5;
+            color: #059669;
+        }
+
+        .empty-message {
+            color: var(--text-muted);
+            font-style: italic;
+            padding: 15px 0;
+        }
+    </style>
 </head>
 <body>
+
     <aside>
         <div class="brand">Corporate Portal</div>
         <p class="menu-label">Navigation</p>
@@ -21,78 +57,222 @@
 
     <main>
         <div class="header-actions">
-            <h1>Base de données Élèves</h1>
-        </div>
-        
-        <div style="display: flex; gap: 10px; margin-bottom: 25px; overflow-x: auto; padding-bottom: 10px;">
-            <button class="btn btn-secondary" style="background: var(--accent); color: white;" onclick="filterYear('year7', this)">Année 7 - 2026/27</button>
-            <button class="btn btn-secondary" onclick="filterYear('year6', this)">Année 6 - 2025/26</button>
-            <button class="btn btn-secondary" onclick="filterYear('year5', this)">Année 5 - 2024/25</button>
-            <button class="btn btn-secondary" onclick="filterYear('year4', this)">Année 4 - 2023/24</button>
-            <button class="btn btn-secondary" onclick="filterYear('year3', this)">Année 3 - 2022/23</button>
-            <button class="btn btn-secondary" onclick="filterYear('year2', this)">Année 2 - 2021/22</button>
-            <button class="btn btn-secondary" onclick="filterYear('year1', this)">Année 1 - 2020/21</button>
-        </div>
-
-        <div class="panel">
-            <div class="panel-header">
-                <h2>Répertoire de l'année sélectionnée</h2>
-                <p>Gestion et accès aux données de la promotion active.</p>
-            </div>
-            <div id="year-content-display" style="background: #f8fafc; padding: 20px; border-radius: 6px; border: 1px dashed var(--border); text-align: center;">
-                <p style="font-weight: 600; margin-bottom: 15px;">Dossier connecté : <span id="current-year-title">Année 7 - 2026/27</span></p>
-                <a href="#" id="drive-link" target="_blank" class="btn btn-secondary" style="background: white;">Ouvrir le dossier Drive ↗</a>
+            <div>
+                <h1>Base de données Élèves</h1>
+                <p style="color: var(--text-muted); margin-top: 5px;">Gestion des cohortes et affectations — Année Scolaire 2025/2026</p>
             </div>
         </div>
 
         <div class="panel">
             <div class="panel-header">
-                <h2>Enregistrement d'une nouvelle fiche</h2>
+                <h2>Enregistrement d'une nouvelle fiche élève</h2>
+                <p>Remplissez les informations ci-dessous pour intégrer l'élève dans sa catégorie respective (3ème ou Seconde).</p>
             </div>
-            <form onsubmit="event.preventDefault(); alert('Fiche enregistrée !');">
+            <form id="add-student-form" onsubmit="handleStudentSubmit(event)">
                 <div class="form-grid">
-                    <div class="form-group"><label>Nom légal</label><input type="text" required></div>
-                    <div class="form-group"><label>Prénom</label><input type="text" required></div>
                     <div class="form-group">
-                        <label>Affectation Promotion</label>
-                        <select id="form-year-select">
-                            <option value="year7">Année 7 - 2026/27</option>
-                            <option value="year6">Année 6 - 2025/26</option>
-                            <option value="year5">Année 5 - 2024/25</option>
-                            <option value="year4">Année 4 - 2023/24</option>
-                            <option value="year3">Année 3 - 2022/23</option>
-                            <option value="year2">Année 2 - 2021/22</option>
-                            <option value="year1">Année 1 - 2020/21</option>
+                        <label for="student-lastname">Nom</label>
+                        <input type="text" id="student-lastname" placeholder="Ex: MARTIN" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="student-firstname">Prénom</label>
+                        <input type="text" id="student-firstname" placeholder="Ex: Lucas" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="student-level">Niveau Scolaire</label>
+                        <select id="student-level" required>
+                            <option value="3eme">Troisième (3ème)</option>
+                            <option value="2nde" selected>Seconde (2nde)</option>
                         </select>
                     </div>
-                    <div class="form-group"><label>E-mail institutionnel</label><input type="email" required></div>
+                    <div class="form-group">
+                        <label for="student-class">Établissement / Classe</label>
+                        <input type="text" id="student-class" placeholder="Ex: Lycée Louis Pasteur" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="student-email">E-mail de l'élève</label>
+                        <input type="email" id="student-email" placeholder="Ex: l.martin@gmail.com" required>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Valider l'inscription</button>
+                <div style="display: flex; justify-content: flex-end; margin-top: 10px;">
+                    <button type="submit" class="btn btn-primary">Inscrire l'élève</button>
+                </div>
             </form>
+        </div>
+
+        <div class="panel level-section">
+            <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h2>Élèves de Troisième (3ème)</h2>
+                    <p>Liste des collégiens en année d'orientation.</p>
+                </div>
+                <span class="level-badge badge-3eme">Collège</span>
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Établissement d'origine</th>
+                            <th>E-mail</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-3eme">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="panel level-section">
+            <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h2>Élèves de Seconde (2nde) — Cohorte 2025/2026</h2>
+                    <p>Liste complète des lycéens (Inscriptions Kiabi Groupe 1 & Groupe 2).</p>
+                </div>
+                <span class="level-badge badge-2nde">Lycée</span>
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Établissement d'origine</th>
+                            <th>E-mail</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-2nde">
+                        </tbody>
+                </table>
+            </div>
         </div>
     </main>
 
     <script>
-        // Remplir ici les vrais liens Drive de tes années 1 à 7
-        const driveLinks = {
-            year7: { title: "Année 7 - 2026/27", url: "LIEN_DRIVE_ANNEE_7" },
-            year6: { title: "Année 6 - 2025/26", url: "LIEN_DRIVE_ANNEE_6" },
-            year5: { title: "Année 5 - 2024/25", url: "LIEN_DRIVE_ANNEE_5" },
-            year4: { title: "Année 4 - 2023/24", url: "LIEN_DRIVE_ANNEE_4" },
-            year3: { title: "Année 3 - 2022/23", url: "LIEN_DRIVE_ANNEE_3" },
-            year2: { title: "Année 2 - 2021/22", url: "LIEN_DRIVE_ANNEE_2" },
-            year1: { title: "Année 1 - 2020/21", url: "LIEN_DRIVE_ANNEE_1" }
-        };
+        // Extraction et injection automatique des 40 élèves de tes fichiers Kiabi
+        const defaultStudents = [
+            { lastname: 'MAZOYER', firstname: 'Maëlle', level: '2nde', class: 'Lycée Privé Sainte-Odile', email: 'mazoyermaelle@gmail.com' },
+            { lastname: 'MATHIEU', firstname: 'Léo', level: '2nde', class: 'Ensemble Scolaire Saint Adrien LaSalle - site Annappes', email: 'leo.mathieu0212@gmail.com' },
+            { lastname: 'FREMAUX', firstname: 'Anaïs', level: '2nde', class: 'Lycée des Flandres', email: 'anaisfrx@yahoo.com' },
+            { lastname: 'BÉHIN', firstname: 'Léon', level: '2nde', class: 'Groupe Institut de Genech', email: 'leon.behin@yahoo.com' },
+            { lastname: 'SAVAZY', firstname: 'Eva', level: '2nde', class: 'Ensemble scolaire La Salle Lille', email: 'eva.savary2010@icloud.com' },
+            { lastname: 'KLIMSZA', firstname: 'Jeanne', level: '2nde', class: 'Lycée Saint Paul', email: 'jeanneklimsza@gmail.com' },
+            { lastname: 'POUWELS', firstname: 'Emma', level: '2nde', class: 'Lycée Philippine Duchesne - ITEC Boisfleury', email: 'emma.powels@icloud.com' },
+            { lastname: 'IZZA-ROSIER', firstname: 'Henri', level: '2nde', class: 'École Européenne Lille Métropole Jacques Delors', email: 'henri.izzarosier@gmail.com' },
+            { lastname: 'HOIZEY', firstname: 'Maxime', level: '2nde', class: 'Lycée Thérèse d\'Avila', email: 'maximehoizey2011@gmail.com' },
+            { lastname: 'BURGEAT', firstname: 'Charlie', level: '2nde', class: 'Lycée public Beaupré', email: 'charlie.burgeat@orange.fr' },
+            { lastname: 'CROMBEZ', firstname: 'Romane', level: '2nde', class: 'Lycée polyvalent privé Saint-Jude', email: 'romane.crombez@sfr.fr' },
+            { lastname: 'SAYAH', firstname: 'Yanis', level: '2nde', class: 'Lycée Jean Perrin', email: 'sayahyanis72@gmail.com' },
+            { lastname: 'LEIGNEL', firstname: 'Jules', level: '2nde', class: 'Lycée Privé Saint-Rémi', email: 'leignel.jules@gmail.com' },
+            { lastname: 'BOUCHEZ', firstname: 'Marius', level: '2nde', class: 'Lycée polyvalent de l\'Escaut', email: 'mariusbouchez@orange.fr' },
+            { lastname: 'RANC', firstname: 'Lyne', level: '2nde', class: 'Lycée général privé Saint-Pierre', email: 'lyneranc@yahoo.fr' },
+            { lastname: 'FACON', firstname: 'Raphael', level: '2nde', class: 'Lycée privé Sainte-Marie', email: 'raphael.facon.lancien@gmail.com' },
+            { lastname: 'SLOSSE', firstname: 'Charlie', level: '2nde', class: 'Lycée Louis Pasteur', email: 'charlie.slosse@gmail.com' },
+            { lastname: 'VERMERSCH', firstname: 'Romane', level: '2nde', class: 'Lycée Notre Dame de la Paix', email: 'romanevermersch@gmail.com' },
+            { lastname: 'AUDOLY', firstname: 'Esteban', level: '2nde', class: 'École Jeannine Manuel', email: 'e.audoly28@ejm.org' },
+            { lastname: 'BENYAHIA', firstname: 'Nail', level: '2nde', class: 'Lycée Gaston Berger', email: 'nail.benyahia@outlook.fr' },
+            { lastname: 'CHUDY', firstname: 'Sacha', level: '2nde', class: 'Lycée Faidherbe', email: 'sachachudy04@gmail.com' },
+            { lastname: 'CAILLEAU', firstname: 'Eliott', level: '2nde', class: 'Lycée polyvalent privé Saint-Jude', email: 'eliott.cailleau@sfr.fr' },
+            { lastname: 'BASTIDE', firstname: 'Foucault', level: '2nde', class: 'Lycée Saint Paul', email: 'foucault.bastide@gmail.com' },
+            { lastname: 'CHIEUX', firstname: 'Inès', level: '2nde', class: 'Lycée Sacré Cœur', email: 'ines.chieux@gmail.com' },
+            { lastname: 'DE JAEGERE', firstname: 'Simon', level: '2nde', class: 'Lycée Notre Dame de la Paix', email: 'simondejaegere@gmail.com' },
+            { lastname: 'DUQUESNE', firstname: 'Louis', level: '2nde', class: 'Lycée Jean Perrin', email: 'duquesnelouis5@gmail.com' },
+            { lastname: 'THULLIEZ', firstname: 'Alice', level: '2nde', class: 'Lycée Sainte-Marie', email: 'alicethulliez10@gmail.com' },
+            { lastname: 'LOGEZ', firstname: 'Noémie', level: '2nde', class: 'Lycée Marguerite de Flandre', email: 'noemielogez@gmail.com' },
+            { lastname: 'MONTAGNE', firstname: 'Raphaël', level: '2nde', class: 'Lycée Faidherbe', email: 'monraphael2010@gmail.com' },
+            { lastname: 'SERRET', firstname: 'Lili Rose', level: '2nde', class: 'Lycée Pierre de Coubertin', email: 'serret.lilirose@gmail.com' },
+            { lastname: 'LEMAIRE', firstname: 'Mila', level: '2nde', class: 'Lycée Watteau', email: 'milalemaire01@gmail.com' },
+            { lastname: 'COUSIN', firstname: 'Marius', level: '2nde', class: 'Lycée Fénelon', email: 'cousinmarius5@gmail.com' },
+            { lastname: 'ROUSSEL', firstname: 'Daphné', level: '2nde', class: 'Lycée polyvalent privé Saint-Jude', email: 'daphneroussel6@gmail.com' },
+            { lastname: 'BROUTIN', firstname: 'Alice', level: '2nde', class: 'Lycée Privé Saint-Rémi', email: 'alicebroutin0@gmail.com' },
+            { lastname: 'D HALLUIN', firstname: 'Léopold', level: '2nde', class: 'Lycée Saint Paul', email: 'leopolddhalluin@gmail.com' },
+            { lastname: 'PLOUVIER', firstname: 'Paul', level: '2nde', class: 'Lycée Notre Dame de la Paix', email: 'paulplouvier59@gmail.com' },
+            { lastname: 'WALLART', firstname: 'Arthur', level: '2nde', class: 'Lycée privé Saint-Jean', email: 'wallartarthur@gmail.com' },
+            { lastname: 'LAMBIN', firstname: 'Gabriel', level: '2nde', class: 'Lycée Raymond Queneau', email: 'gabriel.lambin@icloud.com' },
+            { lastname: 'GILLES', firstname: 'Célia', level: '2nde', class: 'Lycée Paul Hazard', email: 'celia.gilles2010@gmail.com' },
+            { lastname: 'LAURENT', firstname: 'Apolline', level: '2nde', class: 'Lycée Européen Montebello', email: 'apollinelaurent10@gmail.com' }
+        ];
 
-        function filterYear(yearKey, element) {
-            element.parentElement.querySelectorAll('button').forEach(btn => {
-                btn.style.background = "white"; btn.style.color = "var(--text-main)";
-            });
-            element.style.background = "var(--accent)"; element.style.color = "white";
-            document.getElementById('current-year-title').innerText = driveLinks[yearKey].title;
-            document.getElementById('drive-link').setAttribute('href', driveLinks[yearKey].url);
-            document.getElementById('form-year-select').value = yearKey;
+        // Charger les élèves (Base par défaut + élèves ajoutés manuellement par l'utilisateur)
+        function getStudentsDatabase() {
+            const saved = localStorage.getItem('custom_students');
+            if (!saved) {
+                localStorage.setItem('custom_students', JSON.stringify(defaultStudents));
+                return defaultStudents;
+            }
+            return JSON.parse(saved);
         }
+
+        // Générer et trier les listes d'élèves dans les bons tableaux
+        function renderStudents() {
+            const students = getStudentsDatabase();
+            
+            const tbody3eme = document.getElementById('tbody-3eme');
+            const tbody2nde = document.getElementById('tbody-2nde');
+            
+            tbody3eme.innerHTML = '';
+            tbody2nde.innerHTML = '';
+
+            let count3eme = 0;
+            let count2nde = 0;
+
+            students.forEach(student => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${student.lastname.toUpperCase()}</strong></td>
+                    <td>${student.firstname}</td>
+                    <td><span class="level-badge ${student.level === '3eme' ? 'badge-3eme' : 'badge-2nde'}">${student.class}</span></td>
+                    <td><a href="mailto:${student.email}" style="color: var(--accent); text-decoration: none;">${student.email || 'Non renseigné'}</a></td>
+                `;
+
+                if (student.level === '3eme') {
+                    tbody3eme.appendChild(tr);
+                    count3eme++;
+                } else if (student.level === '2nde') {
+                    tbody2nde.appendChild(tr);
+                    count2nde++;
+                }
+            });
+
+            if (count3eme === 0) {
+                tbody3eme.innerHTML = '<tr><td colspan="4" class="empty-message">Aucun élève de 3ème enregistré.</td></tr>';
+            }
+            if (count2nde === 0) {
+                tbody2nde.innerHTML = '<tr><td colspan="4" class="empty-message">Aucun élève de Seconde enregistré.</td></tr>';
+            }
+        }
+
+        // Gérer l'envoi du formulaire d'inscription
+        function handleStudentSubmit(event) {
+            event.preventDefault();
+
+            const lastname = document.getElementById('student-lastname').value.trim();
+            const firstname = document.getElementById('student-firstname').value.trim();
+            const level = document.getElementById('student-level').value;
+            const className = document.getElementById('student-class').value.trim();
+            const email = document.getElementById('student-email').value.trim();
+
+            if (!lastname || !firstname || !level || !className || !email) return;
+
+            const students = getStudentsDatabase();
+
+            students.push({
+                lastname: lastname,
+                firstname: firstname,
+                level: level,
+                class: className,
+                email: email
+            });
+
+            localStorage.setItem('custom_students', JSON.stringify(students));
+            document.getElementById('add-student-form').reset();
+            renderStudents();
+
+            alert(`L'élève ${firstname} ${lastname.toUpperCase()} a bien été inscrit.`);
+        }
+
+        window.onload = renderStudents;
     </script>
 </body>
 </html>
